@@ -28,7 +28,6 @@ safe-outputs:
   threat-detection: false
 timeout-minutes: 30
 imports:
-  - copilot-setup-steps.yml
   - shared/reporting.md
 steps:
   - name: Download recent Copilot workflow logs

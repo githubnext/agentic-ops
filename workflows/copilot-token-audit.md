@@ -52,7 +52,6 @@ imports:
   - uses: shared/daily-audit-base.md
     with:
       title-prefix: "[copilot-token-audit] "
-  - copilot-setup-steps.yml
   - uses: shared/mcp/gh-aw.md
   - shared/python-dataviz.md
 features:
