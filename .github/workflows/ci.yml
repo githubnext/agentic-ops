@@ -3,6 +3,7 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   compile:
@@ -17,5 +18,18 @@ jobs:
 
       - name: Compile workflows
         run: gh aw compile workflows/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  add:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up gh-aw CLI
+        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add workflows
+        run: gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/copilot-token-optimizer
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
