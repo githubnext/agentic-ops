@@ -16,6 +16,7 @@ tools:
   agentic-workflows:
   bash:
     - "*"
+  repo-memory: true
 steps:
   - name: Download Copilot workflow logs
     env:
@@ -51,12 +52,7 @@ imports:
   - uses: shared/daily-audit-base.md
     with:
       title-prefix: "[copilot-token-audit] "
-  - uses: shared/repo-memory-standard.md
-    with:
-      branch-name: "memory/token-audit"
-      description: "Historical daily Copilot token usage snapshots"
-      max-patch-size: 51200
-  - copilot-setup-steps.yml
+  - uses: shared/mcp/gh-aw.md
   - shared/python-dataviz.md
 ---
 
