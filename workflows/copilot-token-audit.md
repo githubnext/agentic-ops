@@ -12,7 +12,6 @@ permissions:
 tracker-id: copilot-token-audit
 engine: copilot
 tools:
-  cli-proxy: true
   agentic-workflows:
   bash:
     - "*"
