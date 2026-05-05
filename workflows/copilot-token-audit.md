@@ -57,7 +57,6 @@ imports:
       description: "Historical daily Copilot token usage snapshots"
       max-patch-size: 51200
   - copilot-setup-steps.yml
-  - uses: shared/mcp/gh-aw.md
   - shared/python-dataviz.md
 features:
   copilot-requests: true
