@@ -24,14 +24,19 @@ jobs:
   add:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Initialize target repository
+        run: |
+          TARGET_REPO=$(mktemp -d)
+          echo "TARGET_REPO=$TARGET_REPO" >> "$GITHUB_ENV"
+          git init "$TARGET_REPO"
+
       - name: Add workflows
+        working-directory: ${{ env.TARGET_REPO }}
         run: gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/agentic-ops/copilot-token-optimizer
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
