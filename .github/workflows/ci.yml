@@ -17,7 +17,7 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile workflows
-        run: gh aw compile workflows/
+        run: gh aw compile --dir workflows
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -30,6 +30,6 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add workflows
-        run: gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/copilot-token-optimizer
+        run: gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/agentic-ops/copilot-token-optimizer
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
