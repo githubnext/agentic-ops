@@ -55,7 +55,6 @@ safe-outputs:
     title-prefix: "[aw-ops] "
 timeout-minutes: 25
 imports:
-  - copilot-setup-steps.yml
   - shared/python-dataviz.md
 ---
 
