@@ -14,7 +14,8 @@ jobs:
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
         with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.71.4
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile workflows
         run: gh aw compile --dir workflows
@@ -27,7 +28,8 @@ jobs:
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
         with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.71.4
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Initialize target repository
         run: |
