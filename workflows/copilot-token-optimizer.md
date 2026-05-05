@@ -12,7 +12,6 @@ permissions:
 tracker-id: copilot-token-optimizer
 engine: copilot
 tools:
-  cli-proxy: true
   github:
     mode: gh-proxy
     toolsets: [issues]
@@ -108,8 +107,6 @@ steps:
         echo "ℹ️ No previous optimization history found."
       fi
 ---
-
-{{#runtime-import? .github/shared-instructions.md}}
 
 # Copilot Token Usage Optimizer
 

@@ -12,7 +12,6 @@ permissions:
 tracker-id: copilot-token-audit
 engine: copilot
 tools:
-  cli-proxy: true
   agentic-workflows:
   bash:
     - "*"
@@ -55,8 +54,6 @@ imports:
   - uses: shared/mcp/gh-aw.md
   - shared/python-dataviz.md
 ---
-
-{{#runtime-import? .github/shared-instructions.md}}
 
 # Daily Copilot Token Usage Audit
 
