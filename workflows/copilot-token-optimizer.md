@@ -26,8 +26,6 @@ safe-outputs:
     max: 1
   threat-detection: false
 timeout-minutes: 30
-imports:
-  - shared/reporting.md
 steps:
   - name: Download recent Copilot workflow logs
     env:
