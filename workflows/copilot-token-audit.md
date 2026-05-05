@@ -51,7 +51,7 @@ safe-outputs:
   create-issue:
     close-older-issues: true
     expires: 1w
-    label: agentic-workflows, agentic-ops
+    labels: [agentic-workflows, agentic-ops]
     title-prefix: "[aw-ops] "
 timeout-minutes: 25
 imports:
