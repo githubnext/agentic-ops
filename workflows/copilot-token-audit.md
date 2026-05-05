@@ -55,11 +55,6 @@ safe-outputs:
     title-prefix: "[aw-ops] "
 timeout-minutes: 25
 imports:
-  - uses: shared/repo-memory-standard.md
-    with:
-      branch-name: "memory/token-audit"
-      description: "Historical daily Copilot token usage snapshots"
-      max-patch-size: 51200
   - copilot-setup-steps.yml
   - shared/python-dataviz.md
 ---
