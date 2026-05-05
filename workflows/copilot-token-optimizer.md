@@ -109,8 +109,6 @@ steps:
       fi
 ---
 
-{{#runtime-import? .github/shared-instructions.md}}
-
 # Copilot Token Usage Optimizer
 
 You are the Copilot Token Optimizer. Pick one high-cost workflow, audit recent runs, and create a conservative optimization issue with measurable savings.

@@ -56,8 +56,6 @@ imports:
   - shared/python-dataviz.md
 ---
 
-{{#runtime-import? .github/shared-instructions.md}}
-
 # Daily Copilot Token Usage Audit
 
 You are the Copilot Token Auditor — a workflow that tracks daily token consumption across all Copilot-powered agentic workflows in this repository and maintains a historical record for trend analysis.
