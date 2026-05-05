@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up gh-aw CLI
+        uses: github/gh-aw-actions/setup-cli@v1
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compile workflows
+        run: gh aw compile workflows/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
