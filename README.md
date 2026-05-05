@@ -15,6 +15,6 @@ This adds the workflow to `.github/workflows/`. For guided setup, use `gh aw add
 ## Workflows
 
 | Workflow | What it does |
-| --- | --- |
+| ----- | --- |
 | [`copilot-token-audit.md`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-audit.md?plain=1) | Collects recent Copilot workflow usage and creates a daily audit snapshot. |
 | [`copilot-token-optimizer.md`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-optimizer.md?plain=1) | Analyzes expensive workflows and proposes conservative token-reduction changes. |
