@@ -46,12 +46,14 @@ steps:
         echo "❌ No log data downloaded (exit code $LOGS_EXIT)"
         echo '{"runs":[],"summary":{}}' > /tmp/gh-aw/token-audit/copilot-logs.json
       fi
+safe-outputs:
+  create-issue:
+    close-older-issues: true
+    expires: 1w
+    labels: [agentic-workflows, agentic-ops]
+    title-prefix: "[aw-ops] "
 timeout-minutes: 25
 imports:
-  - uses: shared/daily-audit-base.md
-    with:
-      title-prefix: "[copilot-token-audit] "
-  - uses: shared/mcp/gh-aw.md
   - shared/python-dataviz.md
 ---
 
