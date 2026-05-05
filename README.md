@@ -7,7 +7,7 @@ This repo contains a small set of GitHub Agentic Workflows for auditing Copilot 
 To add one of these workflows to your repo, use `gh aw add <owner>/<repo>/<workflow-name>`.
 
 ```bash
-gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/copilot-token-optimizer
+gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/agentic-ops/copilot-token-optimizer
 ```
 
 This adds the workflow to `.github/workflows/`. For guided setup, use `gh aw add-wizard githubnext/agentic-ops/copilot-token-audit`.
