@@ -16,6 +16,7 @@ tools:
   agentic-workflows:
   bash:
     - "*"
+  repo-memory: true
 steps:
   - name: Download Copilot workflow logs
     env:
