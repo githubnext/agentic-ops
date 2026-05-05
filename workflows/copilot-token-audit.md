@@ -58,8 +58,6 @@ imports:
       max-patch-size: 51200
   - copilot-setup-steps.yml
   - shared/python-dataviz.md
-features:
-  copilot-requests: true
 source: github/gh-aw/copilot-token-audit.md@8b0bb39a2360d10d3d60f2588d76179cacb4e642
 ---
 
