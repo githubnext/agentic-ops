@@ -17,7 +17,12 @@ tools:
     toolsets: [issues]
   bash:
     - "*"
-  repo-memory: true
+  repo-memory:
+    branch-name: "memory/token-audit"
+    description: "Historical daily Copilot token usage snapshots (shared with copilot-token-audit)"
+    file-glob: ["*.json", "*.jsonl", "*.csv", "*.md"]
+    max-file-size: 102400
+    max-patch-size: 51200
 safe-outputs:
   create-issue:
     expires: 7d
@@ -239,6 +244,13 @@ Create one issue with:
 - **Caveats** (sampling limits, edge cases)
 
 Use `<details>` blocks for long supporting tables.
+
+### Report Formatting Requirements
+
+- Use `###` for main sections and `####` for subsections inside the issue body.
+- Keep the selected workflow, token profile summary, and ranked recommendations visible without collapsible sections.
+- Use `<details><summary>...</summary>` blocks for long supporting tables, raw run evidence, and lower-priority context.
+- If you cite specific workflow runs, format them as links like `[§12345](https://github.com/${{ github.repository }}/actions/runs/12345)` and include up to 3 under `**References:**`.
 
 ## Phase 5 — Update Optimization Log
 
