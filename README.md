@@ -12,6 +12,8 @@ gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/agentic-ops/copi
 
 This adds the workflow to `.github/workflows/`. For guided setup, use `gh aw add-wizard githubnext/agentic-ops/copilot-token-audit`.
 
+Release history lives in [CHANGELOG.md](CHANGELOG.md).
+
 ## Workflows
 
 | Workflow | What it does |
