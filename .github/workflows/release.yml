@@ -45,9 +45,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+          mapfile -t assets < <(find workflows -maxdepth 1 -type f \( -name '*.md' -o -name '*.lock.yml' \) | sort)
+
+          if [ "${#assets[@]}" -eq 0 ]; then
+            echo "No workflow assets found in workflows/" >&2
+            exit 1
+          fi
+
           gh release create "${{ inputs.tag }}" \
-            workflows/*.md \
-            workflows/*.lock.yml \
             --target "${{ inputs.target }}" \
             --generate-notes \
-            --latest
+            --latest \
+            "${assets[@]}"
