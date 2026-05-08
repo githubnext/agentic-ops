@@ -1,0 +1,149 @@
+---
+name: Release
+description: Create a GitHub release for the published agentic workflows and prepend concise release highlights
+on:
+  roles:
+    - admin
+    - maintainer
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to create (e.g., v1.0.0)
+        required: true
+        type: string
+      target:
+        description: Branch or commit to release from
+        required: false
+        default: main
+        type: string
+permissions:
+  contents: read
+engine: copilot
+timeout-minutes: 20
+tools:
+  bash:
+    - "*"
+safe-outputs:
+  update-release:
+  threat-detection: false
+jobs:
+  release:
+    needs: ["pre_activation", "activation"]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      release_id: ${{ steps.create_release.outputs.release_id }}
+      release_tag: ${{ steps.create_release.outputs.release_tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+          ref: ${{ env.RELEASE_TARGET }}
+        env:
+          RELEASE_TARGET: ${{ inputs.target }}
+
+      - name: Set up gh-aw CLI
+        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
+        with:
+          version: v0.71.4
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compile repository workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh aw compile
+
+      - name: Compile published workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh aw compile --dir workflows
+
+      - name: Verify compiled workflows are up to date
+        run: git diff --exit-code -- .github/workflows workflows
+
+      - name: Create GitHub release
+        id: create_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          RELEASE_TARGET: ${{ inputs.target }}
+        run: |
+          set -euo pipefail
+          mapfile -t assets < <(find workflows -maxdepth 1 -type f \( -name '*.md' -o -name '*.lock.yml' \) | sort)
+
+          if [ "${#assets[@]}" -eq 0 ]; then
+            echo "No workflow assets found in workflows/" >&2
+            exit 1
+          fi
+
+          gh release create "$RELEASE_TAG" \
+            --target "$RELEASE_TARGET" \
+            --title "$RELEASE_TAG" \
+            --generate-notes \
+            --latest \
+            "${assets[@]}"
+
+          RELEASE_ID=$(gh release view "$RELEASE_TAG" --json databaseId --jq '.databaseId')
+          echo "release_id=$RELEASE_ID" >> "$GITHUB_OUTPUT"
+          echo "release_tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+
+steps:
+  - name: Prepare release context
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_ID: ${{ needs.release.outputs.release_id }}
+      RELEASE_TAG: ${{ needs.release.outputs.release_tag }}
+    run: |
+      set -euo pipefail
+      mkdir -p /tmp/gh-aw/release-data
+
+      gh api "/repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" > /tmp/gh-aw/release-data/current_release.json
+
+      gh release list --limit 10 --json tagName,name,publishedAt,isLatest \
+        > /tmp/gh-aw/release-data/releases.json
+
+      jq --arg tag "$RELEASE_TAG" '[.[] | select(.tagName != $tag)][0] // null' \
+        /tmp/gh-aw/release-data/releases.json \
+        > /tmp/gh-aw/release-data/previous_release.json
+
+      find workflows -maxdepth 1 -type f \( -name '*.md' -o -name '*.lock.yml' \) | sort \
+        > /tmp/gh-aw/release-data/workflow_assets.txt
+
+      find workflows -maxdepth 1 -type f -name '*.md' | sort \
+        > /tmp/gh-aw/release-data/workflow_sources.txt
+
+---
+
+# Release Highlights Generator
+
+Generate concise release highlights for `${RELEASE_TAG}` in `${GITHUB_REPOSITORY}` and prepend them to the existing release notes.
+
+## Data Available
+
+- `/tmp/gh-aw/release-data/current_release.json` - the release that was just created
+- `/tmp/gh-aw/release-data/previous_release.json` - the previous release, or `null` if this is the first one
+- `/tmp/gh-aw/release-data/workflow_assets.txt` - all files attached to this release
+- `/tmp/gh-aw/release-data/workflow_sources.txt` - the source workflow files included in the release
+
+## What to Write
+
+Create a short `## 🌟 Release Highlights` section that:
+
+- says this release publishes the latest workflow sources and compiled lock files
+- mentions the included workflow source files by name
+- references the previous release tag when one exists
+- stays concise and scannable
+
+If `previous_release.json` is `null`, describe this as the first published release for these workflow assets.
+
+## Output Requirements
+
+Call the `update_release` MCP tool with:
+
+- `tag`: `${RELEASE_TAG}`
+- `operation`: `prepend`
+- `body`: the complete markdown section beginning with `## 🌟 Release Highlights`
+
+Do not rewrite the autogenerated release notes. Only prepend the new highlights section.
