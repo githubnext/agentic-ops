@@ -18,7 +18,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile workflows
-        run: gh aw compile --dir workflows
+        run: |
+          gh aw compile
+          gh aw compile --dir workflows
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
