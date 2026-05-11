@@ -77,8 +77,6 @@ steps:
         echo '{"runs":[],"summary":{}}' > /tmp/gh-aw/token-audit/copilot-logs.json
       fi
 timeout-minutes: 25
-features:
-  copilot-requests: true
 ---
 
 # Daily Copilot Token Usage Audit
