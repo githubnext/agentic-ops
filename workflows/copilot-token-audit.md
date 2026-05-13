@@ -44,9 +44,7 @@ steps:
       mkdir -p /tmp/gh-aw/token-audit/charts /tmp/gh-aw/token-audit/site-packages
   - name: Install Python chart dependencies
     run: |
-      python3 -m pip install --quiet \
-        --target /tmp/gh-aw/token-audit/site-packages \
-        pandas matplotlib seaborn
+      python3 -m pip install --quiet --target /tmp/gh-aw/token-audit/site-packages pandas matplotlib seaborn
   - name: Download Copilot workflow logs
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
