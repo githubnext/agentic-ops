@@ -48,6 +48,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     needs: [compile]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
@@ -57,16 +58,9 @@ jobs:
           version: v0.71.4
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install published workflows into .github/workflows
-        run: |
-          gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
-          gh aw compile
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Run published workflows on this repo
         run: |
-          gh aw run copilot-token-audit --ref "${{ github.ref_name }}"
-          gh aw run copilot-token-optimizer --ref "${{ github.ref_name }}"
+          gh aw run copilot-token-audit --ref main
+          gh aw run copilot-token-optimizer --ref main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
