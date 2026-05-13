@@ -83,6 +83,6 @@ jobs:
           gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
           gh aw compile
 
-          gh aw run copilot-token-audit copilot-token-optimizer --push --ref "$RUN_BRANCH"
+          gh aw run copilot-token-audit copilot-token-optimizer --push --approve --ref "$RUN_BRANCH"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
