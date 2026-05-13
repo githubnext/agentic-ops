@@ -22,7 +22,7 @@ jobs:
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
         with:
-          version: v0.71.4
+          version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile workflows
@@ -41,7 +41,7 @@ jobs:
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
         with:
-          version: v0.71.4
+          version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test gh aw add from local sources
@@ -67,7 +67,7 @@ jobs:
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
         with:
-          version: v0.71.4
+          version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install published workflows locally
