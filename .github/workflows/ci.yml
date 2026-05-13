@@ -3,7 +3,15 @@ name: CI
 on:
   push:
   pull_request:
+  schedule:
+    - cron: "30 11 * * 1-5"
   workflow_dispatch:
+    inputs:
+      run_trials:
+        description: Run published workflows end-to-end to verify they produce results
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   compile:
@@ -26,29 +34,7 @@ jobs:
 
   add:
     runs-on: ubuntu-latest
-    steps:
-      - name: Set up gh-aw CLI
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
-        with:
-          version: v0.71.4
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Initialize target repository
-        run: |
-          TARGET_REPO=$(mktemp -d)
-          echo "TARGET_REPO=$TARGET_REPO" >> "$GITHUB_ENV"
-          git init "$TARGET_REPO"
-
-      - name: Add workflows
-        working-directory: ${{ env.TARGET_REPO }}
-        run: gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/agentic-ops/copilot-token-optimizer
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  run:
-    runs-on: ubuntu-latest
     needs: [compile]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
@@ -58,9 +44,42 @@ jobs:
           version: v0.71.4
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run published workflows on this repo
+      - name: Test gh aw add from local sources
         run: |
-          gh aw run copilot-token-audit --ref main
-          gh aw run copilot-token-optimizer --ref main
+          TARGET_REPO=$(mktemp -d)
+          git init "$TARGET_REPO"
+          cd "$TARGET_REPO"
+          gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
+          gh aw compile --validate --no-emit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  run:
+    runs-on: ubuntu-latest
+    needs: [add]
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.run_trials == 'true')
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up gh-aw CLI
+        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
+        with:
+          version: v0.71.4
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install published workflows locally
+        run: |
+          gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
+          gh aw compile
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run published workflows
+        run: |
+          gh aw run copilot-token-audit --push --ref "${{ github.ref_name }}"
+          gh aw run copilot-token-optimizer --push --ref "${{ github.ref_name }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
