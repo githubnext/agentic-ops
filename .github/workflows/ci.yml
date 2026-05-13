@@ -57,6 +57,13 @@ jobs:
           version: v0.71.4
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install published workflows into .github/workflows
+        run: |
+          gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
+          gh aw compile
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run published workflows on this repo
         run: |
           gh aw run copilot-token-audit --ref "${{ github.ref_name }}"
