@@ -3,6 +3,12 @@ name: "Copilot Setup Steps"
 # This workflow configures the environment for GitHub Copilot Agent with gh-aw MCP server
 on:
   workflow_dispatch:
+    inputs:
+      run_workflows:
+        description: Trigger the published workflows on this repo
+        required: false
+        default: false
+        type: boolean
   push:
     paths:
       - .github/workflows/copilot-setup-steps.yml
@@ -15,12 +21,51 @@ jobs:
     # Set minimal permissions for setup steps
     # Copilot Agent receives its own token with appropriate permissions
     permissions:
-      contents: read
+      actions: write
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Install gh-aw extension
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
+        uses: github/gh-aw-actions/setup-cli@bc56a0cad2f450c562810785ef38649c04db812a # v0.72.1
         with:
-          version: v0.71.4
+          version: v0.72.1
+      - name: Smoke test published workflows via gh aw add
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_DIR: ${{ github.workspace }}/workflows
+        run: |
+          set -euo pipefail
+
+          temp_dir="$(mktemp -d)"
+          trap 'rm -rf "$temp_dir"' EXIT
+
+          cd "$temp_dir"
+          git init -q
+
+          gh aw add "$SOURCE_DIR/copilot-token-audit.md" "$SOURCE_DIR/copilot-token-optimizer.md"
+          gh aw compile --validate --no-emit
+      - name: Validate published workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_DIR: ${{ github.workspace }}/workflows
+        run: |
+          set -euo pipefail
+          gh aw compile --dir workflows --validate --no-emit
+      - name: Run published workflows on this repo
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_workflows == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          gh aw run copilot-token-audit --ref "${{ github.ref_name }}"
+          gh aw run copilot-token-optimizer --ref "${{ github.ref_name }}"
+      - name: Upload trial results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: gh-aw-trial-results
+          path: trials/
+          if-no-files-found: ignore
