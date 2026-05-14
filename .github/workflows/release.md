@@ -75,19 +75,6 @@ jobs:
           version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compile repository workflows
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh aw compile
-
-      - name: Compile published workflows
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh aw compile --dir workflows
-
-      - name: Verify compiled workflows are up to date
-        run: git diff --exit-code -- .github/workflows workflows
-
       - name: Create GitHub release
         id: create_release
         env:
