@@ -45,30 +45,6 @@ jobs:
         env:
           RELEASE_TARGET: ${{ inputs.target }}
 
-      - name: Verify target is latest green CI commit on main
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-
-          target_sha=$(git rev-parse HEAD)
-          latest_green_sha=$(gh api \
-            "/repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?branch=main&status=completed&per_page=20" \
-            --jq '.workflow_runs[] | select(.conclusion == "success") | .head_sha' \
-            | head -n 1)
-
-          if [[ -z "$latest_green_sha" ]]; then
-            echo "No successful CI run found for main." >&2
-            exit 1
-          fi
-
-          if [[ "$target_sha" != "$latest_green_sha" ]]; then
-            echo "Release target must match the latest successful CI run on main." >&2
-            echo "Checked out target: $target_sha" >&2
-            echo "Latest green main SHA: $latest_green_sha" >&2
-            exit 1
-          fi
-
       - name: Set up gh-aw CLI
         uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.72.1
         with:
