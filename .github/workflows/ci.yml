@@ -7,8 +7,8 @@ on:
     - cron: "30 11 * * 1-5"
   workflow_dispatch:
     inputs:
-      publish_workflows:
-        description: Publish generated workflows and enable auto-merge into main
+      install_workflows:
+        description: Install generated workflows into main and enable auto-merge
         required: false
         default: false
         type: boolean
@@ -54,17 +54,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
+  install:
     runs-on: ubuntu-latest
     needs: [add]
     permissions:
       contents: read
     outputs:
-      pr_url: ${{ steps.publish.outputs.pr_url }}
-      auto_merge_enabled: ${{ steps.publish.outputs.auto_merge_enabled }}
+      pr_url: ${{ steps.install.outputs.pr_url }}
+      auto_merge_enabled: ${{ steps.install.outputs.auto_merge_enabled }}
     if: >-
       github.event_name == 'schedule' ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_workflows == 'true')
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.install_workflows == 'true')
     steps:
       - name: Create GitHub App token
         id: app-token
@@ -84,8 +84,8 @@ jobs:
           version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish workflows and enable auto-merge
-        id: publish
+      - name: Install workflows on main via PR and enable auto-merge
+        id: install
         run: |
           set -euo pipefail
 
@@ -100,20 +100,20 @@ jobs:
           git add .github/workflows/copilot-token-audit.md .github/workflows/copilot-token-audit.lock.yml
           git add .github/workflows/copilot-token-optimizer.md .github/workflows/copilot-token-optimizer.lock.yml
           if git diff --cached --quiet; then
-            echo "No published workflow changes to push."
+            echo "No installed workflow changes to push."
             echo "pr_url=" >> "$GITHUB_OUTPUT"
             echo "auto_merge_enabled=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          git commit -m "ci: publish workflows for execution"
+          git commit -m "ci: install workflows for execution"
           git push --set-upstream origin "$RUN_BRANCH"
 
           pr_url=$(gh pr create \
             --base main \
             --head "$RUN_BRANCH" \
-            --title "ci: publish workflows for execution" \
-            --body "Automated workflow publication from CI.")
+            --title "ci: install workflows for execution" \
+            --body "Automated workflow installation from CI.")
 
           gh pr merge "$pr_url" --auto --squash --delete-branch
           echo "pr_url=$pr_url" >> "$GITHUB_OUTPUT"
@@ -121,18 +121,18 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
-      - name: Summarize publish result
+      - name: Summarize install result
         if: always()
         run: |
           {
-            echo "### Publish Result"
-            if [[ -n "${{ steps.publish.outputs.pr_url }}" ]]; then
+            echo "### Install Result"
+            if [[ -n "${{ steps.install.outputs.pr_url }}" ]]; then
               echo
-              echo "- PR: ${{ steps.publish.outputs.pr_url }}"
-              echo "- Auto-merge enabled: ${{ steps.publish.outputs.auto_merge_enabled }}"
+              echo "- PR: ${{ steps.install.outputs.pr_url }}"
+              echo "- Auto-merge enabled: ${{ steps.install.outputs.auto_merge_enabled }}"
             else
               echo
-              echo "- No workflow publication changes were produced."
+              echo "- No workflow installation changes were produced."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -154,28 +154,36 @@ jobs:
           version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify installed workflows exist on main
+      - name: Detect installed workflows on main
+        id: detect-workflows
         run: |
           set -euo pipefail
 
-          missing=0
+          installed=true
           for path in \
             .github/workflows/copilot-token-audit.md \
             .github/workflows/copilot-token-audit.lock.yml \
             .github/workflows/copilot-token-optimizer.md \
             .github/workflows/copilot-token-optimizer.lock.yml; do
-            if ! git cat-file -e "origin/main:${path}" 2>/dev/null; then
-              echo "Missing on origin/main: ${path}"
-              missing=1
+            if [[ ! -f "$path" ]]; then
+              echo "Missing installed workflow file: $path"
+              installed=false
             fi
           done
 
-          if [[ "$missing" -ne 0 ]]; then
-            echo "Published workflows must be committed to main before CI can trigger real runs."
-            exit 1
+          echo "installed=$installed" >> "$GITHUB_OUTPUT"
+
+          if [[ "$installed" != "true" ]]; then
+            {
+              echo "### Run Result"
+              echo
+              echo "- Installed workflow files are not present on this main branch checkout yet."
+              echo "- The install job must merge them into main before the real workflow dispatch can happen."
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Run installed workflows from main
+        if: steps.detect-workflows.outputs.installed == 'true'
         run: |
           set -euo pipefail
           gh aw run copilot-token-audit copilot-token-optimizer --ref main
