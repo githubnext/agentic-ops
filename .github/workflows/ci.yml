@@ -7,8 +7,8 @@ on:
     - cron: "30 11 * * 1-5"
   workflow_dispatch:
     inputs:
-      run_trials:
-        description: Run published workflows end-to-end to verify they produce results
+      publish_workflows:
+        description: Publish generated workflows and enable auto-merge into main
         required: false
         default: false
         type: boolean
@@ -64,7 +64,7 @@ jobs:
       auto_merge_enabled: ${{ steps.publish.outputs.auto_merge_enabled }}
     if: >-
       github.event_name == 'schedule' ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.run_trials == 'true')
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_workflows == 'true')
     steps:
       - name: Create GitHub App token
         id: app-token
@@ -142,9 +142,7 @@ jobs:
     permissions:
       actions: write
       contents: read
-    if: >-
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      github.event_name == 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:

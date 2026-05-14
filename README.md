@@ -1,5 +1,7 @@
 # agentic-ops
 
+[![CI](https://github.com/githubnext/agentic-ops/actions/workflows/ci.yml/badge.svg)](https://github.com/githubnext/agentic-ops/actions/workflows/ci.yml)
+
 This repo contains a small set of GitHub Agentic Workflows for auditing Copilot token usage and highlighting workflows that should be optimized.
 
 ## Usage
