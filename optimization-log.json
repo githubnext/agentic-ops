@@ -46,5 +46,13 @@
     "runs_audited": 1,
     "recommendations_count": 3,
     "estimated_savings_per_run": 900
+  },
+  {
+    "date": "2026-05-14",
+    "workflow_name": "Agentic Maintenance",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 1,
+    "recommendations_count": 3,
+    "estimated_savings_per_run": 5
   }
 ]
