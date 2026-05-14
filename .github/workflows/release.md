@@ -18,7 +18,6 @@ on:
         type: string
 permissions:
   contents: read
-engine: copilot
 timeout-minutes: 20
 tools:
   bash:
