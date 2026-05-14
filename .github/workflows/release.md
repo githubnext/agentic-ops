@@ -45,9 +45,9 @@ jobs:
           RELEASE_TARGET: ${{ inputs.target }}
 
       - name: Set up gh-aw CLI
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.71.4
+        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.72.1
         with:
-          version: v0.71.4
+          version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile repository workflows

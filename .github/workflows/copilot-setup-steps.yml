@@ -28,13 +28,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Install gh-aw extension
-        uses: github/gh-aw-actions/setup-cli@bc56a0cad2f450c562810785ef38649c04db812a # v0.72.1
+        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.72.1
         with:
           version: v0.72.1
       - name: Smoke test published workflows via gh aw add
         env:
           GH_TOKEN: ${{ github.token }}
-          SOURCE_DIR: ${{ github.workspace }}/workflows
         run: |
           set -euo pipefail
 
@@ -44,7 +43,7 @@ jobs:
           cd "$temp_dir"
           git init -q
 
-          gh aw add "$SOURCE_DIR/copilot-token-audit.md" "$SOURCE_DIR/copilot-token-optimizer.md"
+          gh aw add "${{ github.repository }}/copilot-token-audit" "${{ github.repository }}/copilot-token-optimizer"
           gh aw compile --validate --no-emit
       - name: Validate published workflows
         env:
