@@ -38,8 +38,8 @@ Included workflows:
 
 | Workflow | What it does |
 | ----- | --- |
-| [`Daily Copilot Token Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-audit.md?plain=1) | Collects recent workflow token usage, stores historical snapshots, and publishes a daily audit summary. |
-| [`Copilot Token Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-optimizer.md?plain=1) | Analyzes high-token workflows and recommends conservative efficiency improvements backed by recent run data. |
+| [`Daily Token Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-audit.md?plain=1) | Collects recent workflow token usage, stores historical snapshots, and publishes a daily audit summary. |
+| [`Token Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-optimizer.md?plain=1) | Analyzes high-token workflows and recommends conservative efficiency improvements backed by recent run data. |
 
 Release history lives in [CHANGELOG.md](CHANGELOG.md).
 
