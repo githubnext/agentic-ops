@@ -75,7 +75,11 @@ jobs:
           RUN_BRANCH="ci/install-workflows-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git switch --create "$RUN_BRANCH"
 
-          gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
+          if [[ -f .github/workflows/copilot-token-audit.md && -f .github/workflows/copilot-token-optimizer.md ]]; then
+            gh aw update copilot-token-audit copilot-token-optimizer
+          else
+            gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
+          fi
           gh aw compile
 
           git config user.name "github-actions[bot]"
