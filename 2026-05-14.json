@@ -7,9 +7,5 @@
     "total_cost": 0,
     "total_action_minutes": 0
   },
-  "workflows": [],
-  "_meta": {
-    "raw_runs_count": 0,
-    "completed_runs_count": 0
-  }
+  "workflows": []
 }
