@@ -1,6 +1,6 @@
-# agentic-ops — audit token spend, surface waste, and optimize agentic workflows with confidence
+# `agentic-ops` [![CI](https://github.com/githubnext/agentic-ops/actions/workflows/ci.yml/badge.svg)](https://github.com/githubnext/agentic-ops/actions/workflows/ci.yml)
 
-[![CI](https://github.com/githubnext/agentic-ops/actions/workflows/ci.yml/badge.svg)](https://github.com/githubnext/agentic-ops/actions/workflows/ci.yml)
+> "Audit token spend, surface waste, and optimize agentic workflows with confidence!"
 
 `agentic-ops` is a focused bundle of GitHub Agentic Workflows for teams scaling agentic automation and wanting better visibility into cost, usage, and optimization opportunities. Instead of guessing which workflows are expensive or where token waste is hiding, this package gives you an audit trail, historical reporting, and conservative recommendations you can review before making changes.
 
