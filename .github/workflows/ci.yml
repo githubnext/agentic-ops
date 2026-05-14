@@ -3,15 +3,6 @@ name: CI
 on:
   push:
   pull_request:
-  schedule:
-    - cron: "30 11 * * 1-5"
-  workflow_dispatch:
-    inputs:
-      install_workflows:
-        description: Install generated workflows into main and enable auto-merge
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   compile:
@@ -53,88 +44,6 @@ jobs:
           gh aw compile --validate --no-emit
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  install:
-    runs-on: ubuntu-latest
-    needs: [add]
-    permissions:
-      contents: read
-    outputs:
-      pr_url: ${{ steps.install.outputs.pr_url }}
-      auto_merge_enabled: ${{ steps.install.outputs.auto_merge_enabled }}
-    if: >-
-      github.event_name == 'schedule' ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.install_workflows == 'true')
-    steps:
-      - name: Create GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ vars.AGENTIC_OPS_APP_ID }}
-          private-key: ${{ secrets.AGENTIC_OPS_PRIVATE_KEY }}
-
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-        with:
-          fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
-
-      - name: Set up gh-aw CLI
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # setup-cli action pin (installs CLI v0.72.1 below)
-        with:
-          version: v0.72.1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install workflows on main via PR and enable auto-merge
-        id: install
-        run: |
-          set -euo pipefail
-
-          RUN_BRANCH="ci/aw-trials-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          git switch --create "$RUN_BRANCH"
-
-          gh aw add "${{ github.workspace }}/workflows/copilot-token-audit.md" "${{ github.workspace }}/workflows/copilot-token-optimizer.md"
-          gh aw compile
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/copilot-token-audit.md .github/workflows/copilot-token-audit.lock.yml
-          git add .github/workflows/copilot-token-optimizer.md .github/workflows/copilot-token-optimizer.lock.yml
-          if git diff --cached --quiet; then
-            echo "No installed workflow changes to push."
-            echo "pr_url=" >> "$GITHUB_OUTPUT"
-            echo "auto_merge_enabled=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          git commit -m "ci: install workflows for execution"
-          git push --set-upstream origin "$RUN_BRANCH"
-
-          pr_url=$(gh pr create \
-            --base main \
-            --head "$RUN_BRANCH" \
-            --title "ci: install workflows for execution" \
-            --body "Automated workflow installation from CI.")
-
-          gh pr merge "$pr_url" --auto --squash --delete-branch
-          echo "pr_url=$pr_url" >> "$GITHUB_OUTPUT"
-          echo "auto_merge_enabled=true" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-
-      - name: Summarize install result
-        if: always()
-        run: |
-          {
-            echo "### Install Result"
-            if [[ -n "${{ steps.install.outputs.pr_url }}" ]]; then
-              echo
-              echo "- PR: ${{ steps.install.outputs.pr_url }}"
-              echo "- Auto-merge enabled: ${{ steps.install.outputs.auto_merge_enabled }}"
-            else
-              echo
-              echo "- No workflow installation changes were produced."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
 
   run:
     runs-on: ubuntu-latest
