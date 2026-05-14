@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - workflows/**
+    #paths:
+    #  - workflows/**
   workflow_dispatch:
     inputs:
       install_workflows:
