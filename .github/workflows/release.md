@@ -59,19 +59,11 @@ jobs:
           RELEASE_TARGET: ${{ inputs.target }}
         run: |
           set -euo pipefail
-          mapfile -t assets < <(find workflows -maxdepth 1 -type f \( -name '*.md' -o -name '*.lock.yml' \) | sort)
-
-          if [ "${#assets[@]}" -eq 0 ]; then
-            echo "No workflow assets found in workflows/" >&2
-            exit 1
-          fi
-
           gh release create "$RELEASE_TAG" \
             --target "$RELEASE_TARGET" \
             --title "$RELEASE_TAG" \
             --generate-notes \
-            --latest \
-            "${assets[@]}"
+            --latest
 
           RELEASE_ID=$(gh release view "$RELEASE_TAG" --json databaseId --jq '.databaseId')
           echo "release_id=$RELEASE_ID" >> "$GITHUB_OUTPUT"
@@ -96,9 +88,6 @@ steps:
         /tmp/gh-aw/release-data/releases.json \
         > /tmp/gh-aw/release-data/previous_release.json
 
-      find workflows -maxdepth 1 -type f \( -name '*.md' -o -name '*.lock.yml' \) | sort \
-        > /tmp/gh-aw/release-data/workflow_assets.txt
-
       find workflows -maxdepth 1 -type f -name '*.md' | sort \
         > /tmp/gh-aw/release-data/workflow_sources.txt
 
@@ -112,19 +101,18 @@ Generate concise release highlights for `${RELEASE_TAG}` in `${GITHUB_REPOSITORY
 
 - `/tmp/gh-aw/release-data/current_release.json` - the release that was just created
 - `/tmp/gh-aw/release-data/previous_release.json` - the previous release, or `null` if this is the first one
-- `/tmp/gh-aw/release-data/workflow_assets.txt` - all files attached to this release
-- `/tmp/gh-aw/release-data/workflow_sources.txt` - the source workflow files included in the release
+- `/tmp/gh-aw/release-data/workflow_sources.txt` - the source workflow files covered by this release
 
 ## What to Write
 
 Create a short `## 🌟 Release Highlights` section that:
 
-- says this release publishes the latest workflow sources and compiled lock files
+- says this release marks the latest published workflow set for this repository
 - mentions the included workflow source files by name
 - references the previous release tag when one exists
 - stays concise and scannable
 
-If `previous_release.json` is `null`, describe this as the first published release for these workflow assets.
+If `previous_release.json` is `null`, describe this as the first published release for these workflows.
 
 ## Output Requirements
 
