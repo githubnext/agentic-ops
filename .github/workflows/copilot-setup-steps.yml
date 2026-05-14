@@ -43,7 +43,7 @@ jobs:
           cd "$temp_dir"
           git init -q
 
-          gh aw add "${{ github.repository }}/copilot-token-audit" "${{ github.repository }}/copilot-token-optimizer"
+          gh aw add "${{ github.repository }}/agentic-token-audit" "${{ github.repository }}/agentic-token-optimizer"
           gh aw compile --validate --no-emit
       - name: Validate published workflows
         env:
@@ -59,8 +59,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          gh aw run copilot-token-audit --ref "${{ github.ref_name }}"
-          gh aw run copilot-token-optimizer --ref "${{ github.ref_name }}"
+          gh aw run agentic-token-audit --ref "${{ github.ref_name }}"
+          gh aw run agentic-token-optimizer --ref "${{ github.ref_name }}"
       - name: Upload trial results
         if: ${{ always() }}
         uses: actions/upload-artifact@v4

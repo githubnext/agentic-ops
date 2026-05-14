@@ -22,7 +22,7 @@ It is built for platform engineers, developer productivity teams, and repository
 Install the bundle with `gh aw add`:
 
 ```bash
-gh aw add githubnext/agentic-ops/copilot-token-audit githubnext/agentic-ops/copilot-token-optimizer
+gh aw add githubnext/agentic-ops/agentic-token-audit githubnext/agentic-ops/agentic-token-optimizer
 
 # Then compile the installed workflows in your repository
 gh aw compile
@@ -38,10 +38,8 @@ Included workflows:
 
 | Workflow | What it does |
 | ----- | --- |
-| [`Daily Token Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-audit.md?plain=1) | Collects recent workflow token usage, stores historical snapshots, and publishes a daily audit summary. |
-| [`Token Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-optimizer.md?plain=1) | Analyzes high-token workflows and recommends conservative efficiency improvements backed by recent run data. |
-
-Release history lives in [CHANGELOG.md](CHANGELOG.md).
+| [`Daily Agentic Workflow Token Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily audit snapshot. |
+| [`Agentic Workflow Token Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-optimizer.md?plain=1) | Analyzes expensive workflows and proposes conservative token-reduction changes. |
 
 ## License
 

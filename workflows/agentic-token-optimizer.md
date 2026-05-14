@@ -1,5 +1,5 @@
 ---
-description: Daily optimizer that identifies a high-token-usage Copilot workflow, audits its runs, and recommends efficiency improvements
+description: Daily optimizer that identifies a high-token-usage agentic workflow, audits its runs, and recommends efficiency improvements
 on:
   schedule:
     - cron: "daily around 14:00 on weekdays"
@@ -9,8 +9,7 @@ permissions:
   actions: read
   issues: read
   pull-requests: read
-tracker-id: copilot-token-optimizer
-engine: copilot
+tracker-id: agentic-token-optimizer
 tools:
   github:
     mode: gh-proxy
@@ -19,31 +18,30 @@ tools:
     - "*"
   repo-memory:
     branch-name: "memory/token-audit"
-    description: "Historical daily Copilot token usage snapshots (shared with copilot-token-audit)"
+    description: "Historical daily workflow token usage snapshots (shared with agentic-token-audit)"
     file-glob: ["*.json", "*.jsonl", "*.csv", "*.md"]
     max-file-size: 102400
     max-patch-size: 51200
 safe-outputs:
   create-issue:
     expires: 7d
-    title-prefix: "[copilot-token-optimizer] "
+    title-prefix: "[agentic-token-optimizer] "
     close-older-issues: true
     max: 1
   threat-detection: false
 timeout-minutes: 30
 steps:
-  - name: Download recent Copilot workflow logs
+  - name: Download recent agentic workflow logs
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     run: |
       set -euo pipefail
       mkdir -p /tmp/gh-aw/token-audit
 
-      echo "📥 Downloading Copilot workflow logs (last 7 days)..."
+      echo "📥 Downloading agentic workflow logs (last 7 days)..."
 
       LOGS_EXIT=0
       gh aw logs \
-        --engine copilot \
         --start-date -7d \
         --json \
         -c 50 \
@@ -51,7 +49,7 @@ steps:
 
       if [ -s /tmp/gh-aw/token-audit/all-runs.json ]; then
         TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json)
-        echo "✅ Downloaded $TOTAL Copilot workflow runs (last 7 days)"
+        echo "✅ Downloaded $TOTAL agentic workflow runs (last 7 days)"
         if [ "$LOGS_EXIT" -ne 0 ]; then
           echo "⚠️ gh aw logs exited with code $LOGS_EXIT (partial results — likely API rate limit)"
         fi
@@ -111,9 +109,9 @@ steps:
       fi
 ---
 
-# Copilot Token Usage Optimizer
+# Agentic Workflow Token Usage Optimizer
 
-You are the Copilot Token Optimizer. Pick one high-cost workflow, audit recent runs, and create a conservative optimization issue with measurable savings.
+You are the Agentic Workflow Token Optimizer. Pick one high-cost workflow, audit recent runs, and create a conservative optimization issue with measurable savings.
 
 ## Objectives
 
