@@ -1,1 +1,18 @@
-[{"date":"2026-05-14","workflow_name":"Copilot cloud agent","total_tokens_analyzed":150233,"runs_audited":30,"recommendations_count":3,"estimated_savings_per_run":1400}]
+[
+  {
+    "date": "2026-05-14",
+    "workflow_name": "Copilot cloud agent",
+    "total_tokens_analyzed": 150233,
+    "runs_audited": 30,
+    "recommendations_count": 3,
+    "estimated_savings_per_run": 1400
+  },
+  {
+    "date": "2026-05-14",
+    "workflow_name": "CI",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 31,
+    "recommendations_count": 3,
+    "estimated_savings_per_run": 31
+  }
+]
