@@ -20,5 +20,5 @@ Release history lives in [CHANGELOG.md](CHANGELOG.md).
 
 | Workflow | What it does |
 | ----- | --- |
-| [`copilot-token-audit.md`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-audit.md?plain=1) | Collects recent Copilot workflow usage and creates a daily audit snapshot. |
-| [`copilot-token-optimizer.md`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-optimizer.md?plain=1) | Analyzes expensive workflows and proposes conservative token-reduction changes. |
+| [`Daily Copilot Token Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-audit.md?plain=1) | Collects recent Copilot workflow usage and creates a daily audit snapshot. |
+| [`Copilot Token Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/copilot-token-optimizer.md?plain=1) | Analyzes expensive workflows and proposes conservative token-reduction changes. |
