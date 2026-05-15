@@ -22,7 +22,7 @@ It is built for platform engineers, developer productivity teams, and repository
 Install the bundle with `gh aw add`:
 
 ```bash
-gh aw add githubnext/agentic-ops/agentic-token-audit githubnext/agentic-ops/agentic-token-optimizer
+gh aw add githubnext/agentic-ops/agentic-token-audit githubnext/agentic-ops/agentic-token-optimizer githubnext/agentic-ops/daily-subagent-optimizer
 
 # Then compile the installed workflows in your repository
 gh aw compile
@@ -33,6 +33,7 @@ After installation, you can use the included workflows to:
 - run a daily audit of workflow token usage
 - identify the workflows consuming the most tokens
 - generate optimization recommendations grounded in recent run data
+- surface workflows that are good candidates for inline sub-agent refactors
 
 Included workflows:
 
@@ -40,6 +41,7 @@ Included workflows:
 | ----- | --- |
 | [`Daily Agentic Workflow Token Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily audit snapshot. |
 | [`Agentic Workflow Token Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-optimizer.md?plain=1) | Analyzes expensive workflows and proposes conservative token-reduction changes. |
+| [`Daily Sub-Agent Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/daily-subagent-optimizer.md?plain=1) | Finds high-token workflows that are good candidates for inline sub-agent refactors. |
 
 ## License
 
