@@ -3,7 +3,7 @@ name: Daily Sub-Agent Optimizer
 description: Identifies high-token workflows lacking inline sub-agents, applies LLM-expert heuristics to locate decomposable tasks, and creates a concrete inline-agent refactoring proposal
 on:
   schedule:
-    - cron: daily
+    - cron: "35 3 * * *"
   workflow_dispatch:
 permissions:
   contents: read
@@ -35,8 +35,6 @@ safe-outputs:
   noop:
 timeout-minutes: 30
 ---
-
-{{#runtime-import? .github/shared-instructions.md}}
 
 # Daily Sub-Agent Optimizer
 
