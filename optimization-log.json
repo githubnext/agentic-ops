@@ -62,5 +62,13 @@
     "runs_audited": 1,
     "recommendations_count": 3,
     "estimated_savings_per_run": 1100
+  },
+  {
+    "date": "2026-05-15",
+    "workflow_name": "Install Workflows",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 16,
+    "recommendations_count": 2,
+    "estimated_savings_per_run": 35
   }
 ]
