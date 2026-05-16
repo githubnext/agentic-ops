@@ -19,14 +19,26 @@ It is built for platform engineers, developer productivity teams, and repository
 
 ## Quick Start
 
-Install the bundle with `gh aw add`:
+Prerequisites:
+
+- Install the [GitHub Agentic Workflows CLI (`gh aw`)](https://github.github.com/gh-aw/introduction/installation/)
+- Authenticate GitHub CLI (`gh auth login`) in the repository where you want to install the workflows
+
+Install the package with `gh aw add`:
 
 ```bash
-gh aw add githubnext/agentic-ops/agentic-token-audit githubnext/agentic-ops/agentic-token-optimizer githubnext/agentic-ops/daily-subagent-optimizer
+gh aw add githubnext/agentic-ops
 
 # Then compile the installed workflows in your repository
 gh aw compile
 ```
+
+This repository publishes a single package at the repository root. You do not need to target a nested package path.
+
+Required configuration after installation:
+
+- No extra secrets are required beyond the default `GITHUB_TOKEN`.
+- Review workflow schedules and adjust them to your repository needs before enabling them broadly.
 
 After installation, you can use the included workflows to:
 

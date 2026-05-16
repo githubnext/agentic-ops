@@ -1,0 +1,8 @@
+manifest-version: "1"
+name: agentic-ops
+description: Reusable agentic workflows for auditing and optimizing workflow token usage.
+emoji: "🤖"
+files:
+  - workflows/agentic-token-audit.md
+  - workflows/agentic-token-optimizer.md
+  - workflows/daily-subagent-optimizer.md
