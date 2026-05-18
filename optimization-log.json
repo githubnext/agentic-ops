@@ -70,5 +70,13 @@
     "runs_audited": 16,
     "recommendations_count": 2,
     "estimated_savings_per_run": 35
+  },
+  {
+    "date": "2026-05-18",
+    "workflow_name": "Copilot Setup Steps",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "estimated_savings_per_run": 0
   }
 ]
