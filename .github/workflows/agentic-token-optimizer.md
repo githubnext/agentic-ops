@@ -41,7 +41,11 @@ steps:
       echo "📥 Downloading agentic workflow logs (last 7 days)..."
 
       LOGS_EXIT=0
-      gh aw logs         --start-date -7d         --json         -c 50         > /tmp/gh-aw/token-audit/all-runs.json || LOGS_EXIT=$?
+      gh aw logs \
+        --start-date -7d \
+        --json \
+        -c 50 \
+        > /tmp/gh-aw/token-audit/all-runs.json || LOGS_EXIT=$?
 
       if [ -s /tmp/gh-aw/token-audit/all-runs.json ]; then
         TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json)
@@ -126,13 +130,16 @@ All GitHub API access goes through the `gh` CLI via the cli-proxy — there are 
 REPO="${{ github.repository }}"
 
 # ✅ Extract only the fields you need from a file
-gh api "repos/$REPO/contents/.github/workflows/my-workflow.md"   --jq '.content' | base64 -d
+gh api "repos/$REPO/contents/.github/workflows/my-workflow.md" \
+  --jq '.content' | base64 -d
 
 # ✅ List workflow runs — keep only essential metadata
-gh api "repos/$REPO/actions/workflows/my-workflow.yml/runs?per_page=10"   --jq '.workflow_runs[] | {id, name, conclusion, run_started_at}'
+gh api "repos/$REPO/actions/workflows/my-workflow.yml/runs?per_page=10" \
+  --jq '.workflow_runs[] | {id, name, conclusion, run_started_at}'
 
 # ✅ Combine multi-step reads into one bash block with pipes
-gh api "repos/$REPO/contents/.github/workflows/my-workflow.md"   --jq '.content' | base64 -d | sed -n '1,/^---$/{ /^---$/d; p }' | head -40
+gh api "repos/$REPO/contents/.github/workflows/my-workflow.md" \
+  --jq '.content' | base64 -d | sed -n '1,/^---$/{ /^---$/d; p }' | head -40
 
 # ❌ Never load full unfiltered responses — drops everything into context
 gh api "repos/$REPO/actions/workflows/my-workflow.yml/runs"
@@ -206,10 +213,12 @@ WF_PATH=".github/workflows/<workflow-name>.md"
 gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d
 
 # Extract frontmatter only
-gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d   | awk '/^---$/{n++; if(n==2) exit} n==1'
+gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d \
+  | awk '/^---$/{n++; if(n==2) exit} n==1'
 
 # Extract the prompt body only
-gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d   | awk 'f; /^---$/{f=1}'
+gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d \
+  | awk 'f; /^---$/{f=1}'
 ```
 
 Validate from the source:
