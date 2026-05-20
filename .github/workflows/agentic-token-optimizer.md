@@ -305,6 +305,8 @@ Append one entry to `/tmp/gh-aw/repo-memory/default/optimization-log.json`:
 
 `{"date":"YYYY-MM-DD","workflow_name":"...","total_tokens_analyzed":N,"runs_audited":N,"recommendations_count":N,"subagent_candidates":N,"estimated_savings_per_run":N}`
 
+Use `subagent_candidates` for the count of inline sub-agent candidates you actually recommend in the issue body.
+
 Load the existing array if present, append, keep only the last 30 entries, and save.
 
 ## Guardrails
