@@ -86,5 +86,14 @@
     "runs_audited": 1,
     "recommendations_count": 2,
     "estimated_savings_per_run": 500
+  },
+  {
+    "date": "2026-05-20",
+    "workflow_name": "Release",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 1,
+    "recommendations_count": 3,
+    "subagent_candidates": 1,
+    "estimated_savings_per_run": 350
   }
 ]
