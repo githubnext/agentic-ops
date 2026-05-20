@@ -1,5 +1,5 @@
 ---
-description: Daily optimizer that identifies a high-token-usage agentic workflow, audits its runs, and recommends efficiency improvements
+description: Daily optimizer that identifies a high-token-usage agentic workflow, audits its runs, and recommends efficiency improvements including inline sub-agent refactors when warranted
 on:
   schedule:
     - cron: "daily around 14:00 on weekdays"
@@ -41,11 +41,7 @@ steps:
       echo "📥 Downloading agentic workflow logs (last 7 days)..."
 
       LOGS_EXIT=0
-      gh aw logs \
-        --start-date -7d \
-        --json \
-        -c 50 \
-        > /tmp/gh-aw/token-audit/all-runs.json || LOGS_EXIT=$?
+      gh aw logs         --start-date -7d         --json         -c 50         > /tmp/gh-aw/token-audit/all-runs.json || LOGS_EXIT=$?
 
       if [ -s /tmp/gh-aw/token-audit/all-runs.json ]; then
         TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json)
@@ -111,13 +107,13 @@ steps:
 
 # Agentic Workflow Token Usage Optimizer
 
-You are the Agentic Workflow Token Optimizer. Pick one high-cost workflow, audit recent runs, and create a conservative optimization issue with measurable savings.
+You are the Agentic Workflow Token Optimizer. Pick one high-cost workflow, audit recent runs, and create a conservative optimization issue with measurable savings. Your recommendations may include prompt, tool, reliability, setup-prefix, and inline sub-agent improvements when the evidence supports them.
 
 ## Objectives
 
 1. Select one workflow using repo-memory and pre-aggregated data.
-2. Analyze tokens, turns, errors, and tool usage patterns across multiple runs.
-3. Propose safe, high-impact optimizations with evidence.
+2. Analyze tokens, turns, errors, tool usage patterns, and prompt structure across multiple runs.
+3. Propose safe, high-impact optimizations with evidence, including inline sub-agent refactors only when they are a clear fit.
 4. Publish one issue and update optimization history.
 
 ## Data Access Guidelines
@@ -130,16 +126,13 @@ All GitHub API access goes through the `gh` CLI via the cli-proxy — there are 
 REPO="${{ github.repository }}"
 
 # ✅ Extract only the fields you need from a file
-gh api "repos/$REPO/contents/.github/workflows/my-workflow.md" \
-  --jq '.content' | base64 -d
+gh api "repos/$REPO/contents/.github/workflows/my-workflow.md"   --jq '.content' | base64 -d
 
 # ✅ List workflow runs — keep only essential metadata
-gh api "repos/$REPO/actions/workflows/my-workflow.yml/runs?per_page=10" \
-  --jq '.workflow_runs[] | {id, name, conclusion, run_started_at}'
+gh api "repos/$REPO/actions/workflows/my-workflow.yml/runs?per_page=10"   --jq '.workflow_runs[] | {id, name, conclusion, run_started_at}'
 
 # ✅ Combine multi-step reads into one bash block with pipes
-gh api "repos/$REPO/contents/.github/workflows/my-workflow.md" \
-  --jq '.content' | base64 -d | sed -n '1,/^---$/{ /^---$/d; p }' | head -40
+gh api "repos/$REPO/contents/.github/workflows/my-workflow.md"   --jq '.content' | base64 -d | sed -n '1,/^---$/{ /^---$/d; p }' | head -40
 
 # ❌ Never load full unfiltered responses — drops everything into context
 gh api "repos/$REPO/actions/workflows/my-workflow.yml/runs"
@@ -172,31 +165,33 @@ Then collect run-level data for the selected workflow:
 - total and average turns
 - conclusions/error patterns
 
-## Phase 2 — Analyze
+## Phase 2 — Analyze Runtime Behavior
 
 Use this compact analysis matrix:
 
 | Area | Required checks | Output |
 |---|---|---|
-| Tool usage | Compare configured tools from workflow source (read with `gh api … --jq '.content' \| base64 -d \| sed -n …` to extract only the frontmatter) vs observed usage across multiple runs | Keep / Consider removing / Remove |
+| Tool usage | Compare configured tools from workflow source vs observed usage across multiple runs | Keep / Consider removing / Remove |
 | Token efficiency | Evaluate token totals, effective tokens, cache efficiency, turns | Top token waste drivers |
 | Reliability | Repeated errors, warnings, retries, missing tools | Token waste from failures |
 | Prompt efficiency | Redundant instructions, overlong sections, avoidable iteration | Prompt reduction opportunities |
+| Structural optimization | Repeated setup/tool-call prefixes and sections suited for inline sub-agents | Extract setup / Add sub-agent / Keep in main agent |
 
 ### Tool-Usage Efficiency Patterns
 
 When auditing runs, check for these common anti-patterns that waste tokens:
 
-- **Batch independent reads**: look for sequential file reads or API calls that could be requested in a single tool-use block — each extra turn repeats the full context
-- **Chain bash commands**: look for separate bash tool calls that could be combined with `&&` — each call adds a full context echo
-- **Prefer typed tools**: look for `bash cat`, `bash grep`, `bash find -name` when `view`, `grep`, `glob` would return more concise output
-- **Consolidate GitHub API sequences**: look for multiple sequential `gh api` calls that could be combined into fewer round-trips with `jq` filtering
-- **Don't retry without diagnosing**: look for blind retries of the same failing operation without error analysis — each retry wastes a full turn
+- **Batch independent reads**: sequential file reads or API calls that could be requested in a single block
+- **Chain bash commands**: separate bash calls that could be combined with `&&`
+- **Prefer typed tools**: `bash cat`, `bash grep`, `bash find -name` where a more concise tool exists
+- **Consolidate GitHub API sequences**: multiple `gh api` calls that could be reduced with `jq` filtering
+- **Don't retry without diagnosing**: blind retries of the same failing operation without error analysis
 
 Rules:
 
 - Audit at least 5 runs when available before removal recommendations.
 - Never recommend removing a tool used in any successful run unless there is strong contrary evidence.
+- Only recommend inline sub-agents when the target workflow has no existing `## agent:` blocks and at least 3 major prompt sections.
 - Prioritize highest expected savings first.
 
 ## Phase 3 — Read Workflow Source
@@ -205,19 +200,16 @@ Use `gh api` with `--jq` (via cli-proxy) to read the target workflow `.md` sourc
 
 ```bash
 REPO="${{ github.repository }}"
-# Replace <workflow-name> with the actual .md filename, e.g. "copilot-agent-analysis"
 WF_PATH=".github/workflows/<workflow-name>.md"
 
-# Read the full source (only when necessary — prefer targeted slices below)
+# Read the full source only when necessary
 gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d
 
-# Extract frontmatter only (tools, features, network, permissions)
-gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d \
-  | awk '/^---$/{n++; if(n==2) exit} n==1'
+# Extract frontmatter only
+gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d   | awk '/^---$/{n++; if(n==2) exit} n==1'
 
-# Extract the prompt body only (everything after the closing ---)
-gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d \
-  | awk 'f; /^---$/{f=1}'
+# Extract the prompt body only
+gh api "repos/$REPO/contents/$WF_PATH" --jq '.content' | base64 -d   | awk 'f; /^---$/{f=1}'
 ```
 
 Validate from the source:
@@ -225,9 +217,57 @@ Validate from the source:
 - configured tools and feature flags
 - imported shared components
 - prompt structure and verbosity
+- whether the prompt already uses inline sub-agents
 - network/sandbox constraints relevant to recommendations
 
-## Phase 4 — Publish Optimization Issue
+## Phase 4 — Structural Optimization Checks
+
+### Common Setup Prefix Analysis
+
+Split the prompt body into major sections (`##` and `###`). For each section, inspect the first 10 lines and note explicit setup instructions, tool invocations, file reads, or repeated shell snippets.
+
+A setup extraction recommendation is warranted only when:
+
+- at least 2 sections repeat the same opening tool calls or setup instructions, and
+- moving them into a shared `## Setup` section would not change later section behavior.
+
+If you recommend this optimization, capture:
+
+- the shared setup text (quote the exact calls)
+- the affected sections
+- the proposed `## Setup` section text
+- a conservative savings estimate (5–15% per duplicated call removed)
+
+### Inline Sub-Agent Opportunity Analysis
+
+If the workflow has no inline sub-agents yet, score major sections using these dimensions:
+
+| Dimension | Meaning | Max |
+|---|---|---|
+| Independence | Can the section run without outputs from other sections? | 3 |
+| Small-model adequacy | Is the work mostly extractive, classificatory, or formatting? | 3 |
+| Parallelism | Could it run concurrently with other sections? | 2 |
+| Size | Is the task substantial enough to justify an agent call? | 2 |
+
+Scoring guidance:
+
+- `6+`: strong candidate
+- `4–5`: moderate candidate
+- `<4`: keep in the main agent
+
+Smaller models are a good fit for:
+
+- summarizing one file or one code section
+- extracting specific fields from structured text
+- classifying items into a fixed set of categories
+- checking whether something meets a stated criterion
+- formatting already-derived data into tables or templates
+
+Keep with the main agent when the section requires cross-referencing multiple heterogeneous sources, strategic synthesis, or writing the final authoritative issue body.
+
+Recommend at most 3 inline sub-agents, and only when the combined opportunity is clearly material. Keep any proposed agent prompt concise and imperative.
+
+## Phase 5 — Publish Optimization Issue
 
 Create one issue with:
 
@@ -239,27 +279,29 @@ Create one issue with:
   - estimated token savings per run
   - concrete action
   - evidence from observed runs
+- **Optional structural optimizations** for shared setup prefixes and inline sub-agents when supported by the analysis
 - **Caveats** (sampling limits, edge cases)
-
-Use `<details>` blocks for long supporting tables.
 
 ### Report Formatting Requirements
 
-- Use `###` for main sections and `####` for subsections inside the issue body.
+- Use `###` for main sections and `####` for subsections.
 - Keep the selected workflow, token profile summary, and ranked recommendations visible without collapsible sections.
 - Use `<details><summary>...</summary>` blocks for long supporting tables, raw run evidence, and lower-priority context.
 - If you cite specific workflow runs, format them as links like `[§12345](https://github.com/${{ github.repository }}/actions/runs/12345)` and include up to 3 under `**References:**`.
+- If you recommend inline sub-agents, include each candidate's task, why a smaller model fits, score breakdown, and the exact invocation change you want made in the main prompt.
 
-## Phase 5 — Update Optimization Log
+## Phase 6 — Update Optimization Log
 
 Append one entry to `/tmp/gh-aw/repo-memory/default/optimization-log.json`:
 
-`{"date":"YYYY-MM-DD","workflow_name":"...","total_tokens_analyzed":N,"runs_audited":N,"recommendations_count":N,"estimated_savings_per_run":N}`
+`{"date":"YYYY-MM-DD","workflow_name":"...","total_tokens_analyzed":N,"runs_audited":N,"recommendations_count":N,"subagent_candidates":N,"estimated_savings_per_run":N}`
 
-Load existing array if present, append, keep only last 30 entries, and save.
+Load the existing array if present, append, keep only the last 30 entries, and save.
 
 ## Guardrails
 
 - Use pre-downloaded data; do not re-download logs.
 - Keep recommendations evidence-based and low-risk.
 - Do not modify audit snapshots; only update `optimization-log.json`.
+- If the target workflow already has inline sub-agents, do not recommend adding more unless there is a clearly separate, still-extractive task.
+- If no structural optimization is warranted, omit that section rather than padding the issue.
