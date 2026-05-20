@@ -108,6 +108,13 @@ steps:
         }' > /tmp/gh-aw/release-data/semver_context.json
 
       if [ -n "$PREVIOUS_TAG" ]; then
+        # The agent job checkout is shallow by default; fetch full history and tags
+        # so that the "$PREVIOUS_TAG..$RELEASE_TARGET" revision range is resolvable.
+        SERVER_HOST="${GITHUB_SERVER_URL#https://}"
+        git remote set-url origin "https://x-access-token:${GH_TOKEN}@${SERVER_HOST}/${GITHUB_REPOSITORY}.git"
+        git fetch --unshallow --tags 2>/dev/null || git fetch --tags
+        git remote set-url origin "https://${SERVER_HOST}/${GITHUB_REPOSITORY}.git"
+
         git log --no-merges --reverse --pretty=format:'%H%x09%s' "$PREVIOUS_TAG..$RELEASE_TARGET" \
           > /tmp/gh-aw/release-data/commit_subjects.tsv
         git diff --name-only "$PREVIOUS_TAG..$RELEASE_TARGET" \
