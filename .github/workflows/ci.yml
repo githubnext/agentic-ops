@@ -44,7 +44,7 @@ jobs:
           TARGET_REPO=$(mktemp -d)
           git init "$TARGET_REPO"
           cd "$TARGET_REPO"
-          gh aw add "${{ github.workspace }}/workflows/agentic-token-audit.md" "${{ github.workspace }}/workflows/agentic-token-optimizer.md" "${{ github.workspace }}/workflows/daily-subagent-optimizer.md"
+          gh aw add "${{ github.workspace }}/workflows/agentic-token-audit.md" "${{ github.workspace }}/workflows/agentic-token-optimizer.md"
           gh aw compile --validate --no-emit
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,7 +68,7 @@ jobs:
           TARGET_REPO=$(mktemp -d)
           git init "$TARGET_REPO"
           cd "$TARGET_REPO"
-          gh aw add "${{ github.repository }}/agentic-token-audit" "${{ github.repository }}/agentic-token-optimizer" "${{ github.repository }}/daily-subagent-optimizer"
+          gh aw add "${{ github.repository }}/agentic-token-audit" "${{ github.repository }}/agentic-token-optimizer"
           gh aw compile --validate --no-emit
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,9 +101,7 @@ jobs:
             .github/workflows/agentic-token-audit.md \
             .github/workflows/agentic-token-audit.lock.yml \
             .github/workflows/agentic-token-optimizer.md \
-            .github/workflows/agentic-token-optimizer.lock.yml \
-            .github/workflows/daily-subagent-optimizer.md \
-            .github/workflows/daily-subagent-optimizer.lock.yml; do
+            .github/workflows/agentic-token-optimizer.lock.yml; do
             if [[ ! -f "$path" ]]; then
               echo "Missing installed workflow file: $path"
               installed=false
@@ -125,6 +123,6 @@ jobs:
         if: steps.detect-workflows.outputs.installed == 'true'
         run: |
           set -euo pipefail
-          gh aw run agentic-token-audit agentic-token-optimizer daily-subagent-optimizer --ref main
+          gh aw run agentic-token-audit agentic-token-optimizer --ref main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
