@@ -140,5 +140,14 @@
     "recommendations_count": 5,
     "subagent_candidates": 1,
     "estimated_savings_per_run": 1650
+  },
+  {
+    "date": "2026-05-25",
+    "workflow_name": "Daily Agentic Workflow Token Usage Audit",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 4,
+    "recommendations_count": 4,
+    "subagent_candidates": 0,
+    "estimated_savings_per_run": 350
   }
 ]
