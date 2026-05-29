@@ -176,5 +176,14 @@
     "recommendations_count": 4,
     "subagent_candidates": 1,
     "estimated_savings_per_run": 800
+  },
+  {
+    "date": "2026-05-29",
+    "workflow_name": "Agentic Maintenance",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 10,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_savings_per_run": 0
   }
 ]
