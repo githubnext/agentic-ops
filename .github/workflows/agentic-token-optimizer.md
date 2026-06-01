@@ -72,7 +72,6 @@ steps:
             | {
                 workflow_name: .workflow_name,
                 tokens: (.token_usage // 0),
-                cost: (.estimated_cost // 0),
                 turns: (.turns // 0),
                 action_minutes: (.action_minutes // 0)
               }
@@ -83,7 +82,6 @@ steps:
               run_count: length,
               total_tokens: (map(.tokens) | add),
               avg_tokens: ((map(.tokens) | add) / length),
-              total_cost: (map(.cost) | add),
               total_turns: (map(.turns) | add),
               total_action_minutes: (map(.action_minutes) | add)
             })
@@ -111,7 +109,7 @@ steps:
 
 # Agentic Workflow Token Usage Optimizer
 
-You are the Agentic Workflow Token Optimizer. Pick one high-cost workflow, audit recent runs, and create a conservative optimization issue with measurable savings. Your recommendations may include prompt, tool, reliability, setup-prefix, and inline sub-agent improvements when the evidence supports them.
+You are the Agentic Workflow Token Optimizer. Pick one high-token workflow, audit recent runs, and create a conservative optimization issue with measurable improvements. Your recommendations may include prompt, tool, reliability, setup-prefix, and inline sub-agent improvements when the evidence supports them.
 
 ## Objectives
 
@@ -154,7 +152,7 @@ Prefer `--jq` on `gh api` calls over a separate `| jq` step when the filter is s
 - `/tmp/gh-aw/repo-memory/default/YYYY-MM-DD.json`: daily audit snapshots.
 - `/tmp/gh-aw/repo-memory/default/optimization-log.json`: prior optimizations (if present).
 
-Treat missing numeric fields (`token_usage`, `estimated_cost`, `turns`, `action_minutes`) as `0`.
+Treat missing numeric fields (`token_usage`, `turns`, `action_minutes`) as `0`.
 
 ## Phase 1 — Select Target
 
@@ -168,7 +166,6 @@ Then collect run-level data for the selected workflow:
 
 - run count
 - total and average tokens
-- total and average cost
 - total and average turns
 - conclusions/error patterns
 
@@ -282,7 +279,7 @@ Create one issue with:
 
 - **Target workflow + reason selected**
 - **Analysis period + runs analyzed**
-- **Token profile table** (total tokens, avg tokens/run, total cost, avg turns/run, cache efficiency)
+- **Token profile table** (total tokens, avg tokens/run, avg turns/run, cache efficiency)
 - **Ranked recommendations** with:
   - title
   - estimated token savings per run
