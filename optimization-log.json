@@ -185,5 +185,14 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_savings_per_run": 0
+  },
+  {
+    "date": "2026-06-01",
+    "workflow_name": "Install Workflows",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_savings_per_run": 35
   }
 ]
