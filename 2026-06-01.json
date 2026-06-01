@@ -1,0 +1,11 @@
+{
+  "date": "2026-06-01",
+  "period_days": 30,
+  "overall": {
+    "total_runs": 0,
+    "total_tokens": 0,
+    "total_cost": 0,
+    "total_action_minutes": 0
+  },
+  "workflows": []
+}
