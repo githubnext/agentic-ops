@@ -209,7 +209,7 @@ The notes must be user-facing:
 Selection rubric for whether a change belongs in the release notes or changelog:
 
 - include it when a user would notice it by using the workflow, reading its issue/report output, configuring it, upgrading it, or debugging it
-- include it when it changes expectations around compatibility, migration, deprecation, stability, security, or operating cost
+- include it when it changes expectations around compatibility, migration, deprecation, stability, security, or operating overhead
 - omit it when it only affects how the repository is built, tested, compiled, organized, or maintained internally
 - omit it when it is merely a prerequisite for other work and has no standalone user-facing effect
 - collapse related low-level changes into one user-facing outcome when they support the same improvement

@@ -79,7 +79,7 @@ You are the Agentic Workflow Token Auditor — a workflow that tracks daily toke
 
 1. Parse the pre-downloaded agentic workflow logs and compute per-workflow token usage metrics.
 2. Persist today's snapshot to repo-memory so the optimizer (and future runs of this audit) can read historical data.
-3. Publish a concise audit issue summarizing today's usage, trends, and cost highlights.
+3. Publish a concise audit issue summarizing today's usage and trend highlights.
 
 ## Data Sources
 
@@ -89,7 +89,7 @@ The workflow logs are at `/tmp/gh-aw/token-audit/workflow-logs.json`. The file i
 
 ```json
 {
-  "summary": { "total_runs": N, "total_tokens": N, "total_cost": F, ... },
+  "summary": { "total_runs": N, "total_tokens": N, ... },
   "runs": [ ... ],
   "tool_usage": [ ... ],
   "mcp_tool_usage": { ... },
@@ -104,8 +104,7 @@ Each element of `.runs` is a `RunData` object with (among others):
 | `workflow_name` | string | Human-readable name |
 | `workflow_path` | string | `.github/workflows/....lock.yml` |
 | `token_usage` | int | Total tokens (`omitempty` — treat missing/null as 0) |
-| `effective_tokens` | int | Cost-normalized tokens |
-| `estimated_cost` | float | USD cost (`omitempty` — treat missing/null as 0) |
+| `effective_tokens` | int | Normalized token metric |
 | `action_minutes` | float | Billable GitHub Actions minutes |
 | `turns` | int | Number of agent turns |
 | `duration` | string | Human-readable duration |
@@ -129,8 +128,8 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 1. Load `/tmp/gh-aw/token-audit/workflow-logs.json` and extract `.runs`.
 2. Filter to `status == "completed"` runs only.
 3. Group by `workflow_name` and compute per-workflow aggregates:
-   - `run_count`, `total_tokens`, `avg_tokens`, `total_cost`, `avg_cost`, `total_turns`, `avg_turns`, `total_action_minutes`, `error_count`, `warning_count`
-4. Compute an overall summary: total runs, total tokens, total cost, total action minutes.
+   - `run_count`, `total_tokens`, `avg_tokens`, `total_turns`, `avg_turns`, `total_action_minutes`, `error_count`, `warning_count`
+4. Compute an overall summary: total runs, total tokens, total action minutes.
 5. Sort workflows descending by `total_tokens`.
 6. Save the result to `/tmp/gh-aw/token-audit/audit_snapshot.json` with this shape:
 
@@ -141,7 +140,6 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
   "overall": {
     "total_runs": N,
     "total_tokens": N,
-    "total_cost": F,
     "total_action_minutes": F
   },
   "workflows": [
@@ -150,8 +148,6 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
       "run_count": N,
       "total_tokens": N,
       "avg_tokens": N,
-      "total_cost": F,
-      "avg_cost": F,
       "total_turns": N,
       "avg_turns": F,
       "total_action_minutes": F,
@@ -163,7 +159,7 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 }
 ```
 
-Handle null/missing `token_usage` and `estimated_cost` by treating them as 0.
+Handle null/missing `token_usage` by treating them as 0.
 
 ## Phase 2 — Persist Snapshot to Repo-Memory
 
@@ -171,7 +167,7 @@ Handle null/missing `token_usage` and `estimated_cost` by treating them as 0.
 2. Copy it to `/tmp/gh-aw/repo-memory/default/YYYY-MM-DD.json` (today's UTC date).
 3. This file is what the optimizer workflow reads to identify high-usage workflows.
 
-Also maintain a rolling summary file at `/tmp/gh-aw/repo-memory/default/rolling-summary.json` that contains an array of daily overall totals (date, total_tokens, total_cost, total_runs, total_action_minutes) for the last 90 entries. Load the existing file, append today's entry, trim to 90, and save.
+Also maintain a rolling summary file at `/tmp/gh-aw/repo-memory/default/rolling-summary.json` that contains an array of daily overall totals (date, total_tokens, total_runs, total_action_minutes) for the last 90 entries. Load the existing file, append today's entry, trim to 90, and save.
 
 Do not append a synthetic zero-valued entry to `rolling-summary.json` when either of these conditions is true:
 
@@ -218,15 +214,14 @@ Create an issue with these sections:
 - **Period**: last 24 hours (YYYY-MM-DD to YYYY-MM-DD)
 - **Total runs**: N
 - **Total tokens**: N (formatted with commas)
-- **Total cost**: $X.XX
 - **Total Actions minutes**: X.X min
 - **Active workflows**: N
 
 ### 🏆 Top 5 Workflows by Token Usage
 
-| Workflow | Runs | Total Tokens | Avg Tokens | Total Cost | Avg Cost |
-|---|---|---|---|---|---|
-| ... | ... | ... | ... | ... | ... |
+| Workflow | Runs | Total Tokens | Avg Tokens |
+|---|---|---|---|
+| ... | ... | ... | ... |
 
 ### 📈 Trends
 
@@ -236,7 +231,7 @@ Embed chart images using uploaded asset URLs when available:
 
 ![Historical Token Trend](UPLOAD_URL_TREND_PLACEHOLDER)
 
-Summarize token and cost changes from `rolling-summary.json` when historical data is available.
+Summarize token changes from `rolling-summary.json` when historical data is available.
 
 <details>
 <summary><b>Full Per-Workflow Breakdown</b></summary>
