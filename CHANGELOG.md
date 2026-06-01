@@ -23,6 +23,30 @@ Changelog entries should describe what changed for users of these workflows, not
 - Omit vague filler like "various fixes" when the actual effect can be named.
 - Do not include contributor handles, reviewer names, or other attribution in release entries.
 
+## [0.2.2] - 2026-06-01
+
+### Changed
+
+- Removed dollar-denominated cost estimates from workflow output and documentation. Cost calculations are now expressed only as token counts.
+
+## [0.2.1] - 2026-05-29
+
+### Fixed
+
+- Internal maintenance fix for agent job reliability.
+
+## [0.2.0] - 2026-05-22
+
+### Added
+
+- Support for installing workflows as named sources via `gh aw add owner/repo/workflow-name`.
+- Daily Sub-Agent Optimizer workflow for analyzing and optimizing high-token workflows.
+
+### Changed
+
+- Consolidated separate optimizer workflows into a single unified workflow.
+- Made all published workflows agent-agnostic, eliminating agent-specific configuration requirements.
+
 ## [0.1.1] - 2026-05-14
 
 ### Changed
