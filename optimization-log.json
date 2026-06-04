@@ -212,5 +212,14 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_savings_per_run": 120
+  },
+  {
+    "date": "2026-06-04",
+    "workflow_name": "Copilot Setup Steps",
+    "total_tokens_analyzed": 0,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_savings_per_run": 3
   }
 ]
