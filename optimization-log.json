@@ -230,5 +230,15 @@
     "recommendations_count": 4,
     "subagent_candidates": 1,
     "estimated_savings_per_run": 950
+  },
+  {
+    "date": "2026-06-08",
+    "workflow_name": "Agentic Workflow AI Credit Spend Optimizer",
+    "total_ai_credits_analyzed": 0.0,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 14,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_ai_credit_savings_per_run": 0.5
   }
 ]
