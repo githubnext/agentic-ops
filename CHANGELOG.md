@@ -23,6 +23,12 @@ Changelog entries should describe what changed for users of these workflows, not
 - Omit vague filler like "various fixes" when the actual effect can be named.
 - Do not include contributor handles, reviewer names, or other attribution in release entries.
 
+## [0.3.0] - 2026-06-08
+
+### Changed
+
+- Updated both workflows to track and report AI credits (AIC) as the primary billing metric, aligned with the GitHub Copilot AI credits billing model introduced on June 1, 2026 (1 AIC = $0.01 USD). The daily audit snapshot and rolling summary now include `total_ai_credits`; audit and optimizer issues now lead with AI credit spend. Effective tokens remain available as a legacy compatibility field in the run data but are no longer the primary reporting metric.
+
 ## [0.2.2] - 2026-06-01
 
 ### Changed
