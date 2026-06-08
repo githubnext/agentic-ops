@@ -184,8 +184,8 @@ Report those two cases differently in the issue as described below so the empty-
 
 Create up to two chart images in `/tmp/gh-aw/token-audit/charts/` using Python, `matplotlib`, and `seaborn` with `whitegrid` styling:
 
-1. **AI credit spend by workflow** (`token_by_workflow.png`): a horizontal bar chart of the top 15 workflows by total AI credits from `audit_snapshot.json`.
-2. **Historical AI credit trend** (`token_trend.png`): a line chart from `rolling-summary.json`.
+1. **AI credit spend by workflow** (`ai_credits_by_workflow.png`): a horizontal bar chart of the top 15 workflows by total AI credits from `audit_snapshot.json`.
+2. **Historical AI credit trend** (`ai_credits_trend.png`): a line chart from `rolling-summary.json`.
 
 Chart requirements:
 
@@ -195,8 +195,8 @@ Chart requirements:
 - Save only PNG files.
 - If there are fewer than 2 rolling-summary points, skip the trend chart and explain why in the issue.
 - After generating each chart, call `upload_asset` with its file path.
-- In the issue template below, replace `UPLOAD_URL_WORKFLOW_PLACEHOLDER` with the URL returned for `token_by_workflow.png`.
-- In the issue template below, replace `UPLOAD_URL_TREND_PLACEHOLDER` with the URL returned for `token_trend.png`.
+- In the issue template below, replace `UPLOAD_URL_WORKFLOW_PLACEHOLDER` with the URL returned for `ai_credits_by_workflow.png`.
+- In the issue template below, replace `UPLOAD_URL_TREND_PLACEHOLDER` with the URL returned for `ai_credits_trend.png`.
 - If a chart is skipped, omit that image markdown line entirely instead of leaving a placeholder behind.
 
 ## Phase 4 — Publish Audit Issue
