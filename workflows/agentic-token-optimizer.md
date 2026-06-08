@@ -176,7 +176,7 @@ Use this compact analysis matrix:
 | Area | Required checks | Output |
 |---|---|---|
 | Tool usage | Compare configured tools from workflow source vs observed usage across multiple runs | Keep / Consider removing / Remove |
-| Token efficiency | Evaluate token totals, effective tokens, cache efficiency, turns | Top token waste drivers |
+| Token efficiency | Evaluate token totals, effective tokens (internal diagnostic metric), cache efficiency, turns, and AI credits trends | Top token/AI-credit waste drivers |
 | Reliability | Repeated errors, warnings, retries, missing tools | Token waste from failures |
 | Prompt efficiency | Redundant instructions, overlong sections, avoidable iteration | Prompt reduction opportunities |
 | Structural optimization | Repeated setup/tool-call prefixes and sections suited for inline sub-agents | Extract setup / Add sub-agent / Keep in main agent |
