@@ -1,6 +1,7 @@
 {
   "date": "2026-06-08",
   "period_days": 30,
+  "raw_runs_count": 0,
   "overall": {
     "total_runs": 0,
     "total_ai_credits": 0,
