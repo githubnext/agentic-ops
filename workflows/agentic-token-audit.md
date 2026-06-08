@@ -104,7 +104,7 @@ Each element of `.runs` is a `RunData` object with (among others):
 | `workflow_name` | string | Human-readable name |
 | `workflow_path` | string | `.github/workflows/....lock.yml` |
 | `token_usage` | int | Total tokens (`omitempty` — treat missing/null as 0) |
-| `effective_tokens` | int | Normalized token metric |
+| `effective_tokens` | int | Internal accounting metric (not the user-facing billing unit; Copilot billing uses AI credits) |
 | `action_minutes` | float | Billable GitHub Actions minutes |
 | `turns` | int | Number of agent turns |
 | `duration` | string | Human-readable duration |
