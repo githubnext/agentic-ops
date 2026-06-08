@@ -171,7 +171,7 @@ Handle null/missing `ai_credits` and `token_usage` by treating them as 0.
 2. Copy it to `/tmp/gh-aw/repo-memory/default/YYYY-MM-DD.json` (today's UTC date).
 3. This file is what the optimizer workflow reads to identify high-usage workflows.
 
-Also maintain a rolling summary file at `/tmp/gh-aw/repo-memory/default/rolling-summary.json` that contains an array of daily overall totals (date, total_ai_credits, total_tokens, total_runs, total_action_minutes) for the last 90 entries. Load the existing file, append today's entry, trim to 90, and save.
+Also maintain a rolling summary file at `/tmp/gh-aw/repo-memory/default/rolling-summary.json` that contains an array of daily overall totals (date, total_ai_credits, total_tokens, total_runs, total_action_minutes, active_workflows) for the last 90 entries. `active_workflows` must be the count of distinct workflows with `run_count >= 1` in that day's snapshot. Load the existing file, append today's entry, trim to 90, and save.
 
 Do not append a synthetic zero-valued entry to `rolling-summary.json` when either of these conditions is true:
 
@@ -185,7 +185,7 @@ Report those two cases differently in the issue as described below so the empty-
 Create up to two chart images in `/tmp/gh-aw/token-audit/charts/` using Python, `matplotlib`, and `seaborn` with `whitegrid` styling:
 
 1. **AI credit spend by workflow** (`ai_credits_by_workflow.png`): a horizontal bar chart of the top 15 workflows by total AI credits from `audit_snapshot.json`.
-2. **Historical AI credit trend** (`ai_credits_trend.png`): a line chart from `rolling-summary.json`.
+2. **Historical AI credit trend** (`ai_credits_trend.png`): a dual-axis line chart from `rolling-summary.json` with total AI credits on the primary y-axis and active workflows/day on the secondary y-axis.
 
 Chart requirements:
 
@@ -193,6 +193,8 @@ Chart requirements:
 - Use 300 DPI and a white background.
 - Add clear axis labels and titles.
 - Save only PNG files.
+- For `ai_credits_trend.png`, label the secondary y-axis as `Active workflows/day` (or `Distinct workflows executed`) and plot daily distinct executed workflows from `active_workflows`.
+- Do not plot the total number of workflows defined in the repository.
 - If there are fewer than 2 rolling-summary points, skip the trend chart and explain why in the issue.
 - After generating each chart, call `upload_asset` with its file path.
 - In the issue template below, replace `UPLOAD_URL_WORKFLOW_PLACEHOLDER` with the URL returned for `ai_credits_by_workflow.png`.
@@ -236,7 +238,7 @@ Embed chart images using uploaded asset URLs when available:
 
 ![Historical AI Credit Trend](UPLOAD_URL_TREND_PLACEHOLDER)
 
-Summarize AI credit and token changes from `rolling-summary.json` when historical data is available.
+Summarize AI credit, token, and active-workflow changes from `rolling-summary.json` when historical data is available.
 
 <details>
 <summary><b>Full Per-Workflow Breakdown</b></summary>
