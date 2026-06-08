@@ -1,5 +1,5 @@
 ---
-description: Daily audit of token usage across all agentic workflows with historical trend tracking
+description: Daily audit of AI credit spend across all agentic workflows with historical trend tracking
 on:
   schedule:
     - cron: "daily around 12:00 on weekdays"
@@ -71,15 +71,15 @@ steps:
 timeout-minutes: 25
 ---
 
-# Daily Agentic Workflow Token Usage Audit
+# Daily Agentic Workflow AI Credit Spend Audit
 
-You are the Agentic Workflow Token Auditor — a workflow that tracks daily token consumption across all agentic workflows in this repository and maintains a historical record for trend analysis.
+You are the Agentic Workflow Auditor — a workflow that tracks daily AI credit spend and token consumption across all agentic workflows in this repository and maintains a historical record for trend analysis.
 
 ## Mission
 
-1. Parse the pre-downloaded agentic workflow logs and compute per-workflow token usage metrics.
+1. Parse the pre-downloaded agentic workflow logs and compute per-workflow AI credit spend and token usage metrics.
 2. Persist today's snapshot to repo-memory so the optimizer (and future runs of this audit) can read historical data.
-3. Publish a concise audit issue summarizing today's usage and trend highlights.
+3. Publish a concise audit issue summarizing today's AI credit spend and trend highlights.
 
 ## Data Sources
 
@@ -103,8 +103,9 @@ Each element of `.runs` is a `RunData` object with (among others):
 |---|---|---|
 | `workflow_name` | string | Human-readable name |
 | `workflow_path` | string | `.github/workflows/....lock.yml` |
+| `ai_credits` | float | AI credits consumed (primary billing metric; 1 AIC = $0.01 USD) |
 | `token_usage` | int | Total tokens (`omitempty` — treat missing/null as 0) |
-| `effective_tokens` | int | Normalized token metric |
+| `effective_tokens` | int | Legacy normalized token metric (deprecated; use `ai_credits` for billing) |
 | `action_minutes` | float | Billable GitHub Actions minutes |
 | `turns` | int | Number of agent turns |
 | `duration` | string | Human-readable duration |
@@ -128,9 +129,9 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 1. Load `/tmp/gh-aw/token-audit/workflow-logs.json` and extract `.runs`.
 2. Filter to `status == "completed"` runs only.
 3. Group by `workflow_name` and compute per-workflow aggregates:
-   - `run_count`, `total_tokens`, `avg_tokens`, `total_turns`, `avg_turns`, `total_action_minutes`, `error_count`, `warning_count`
-4. Compute an overall summary: total runs, total tokens, total action minutes.
-5. Sort workflows descending by `total_tokens`.
+   - `run_count`, `total_ai_credits`, `avg_ai_credits`, `total_tokens`, `avg_tokens`, `total_turns`, `avg_turns`, `total_action_minutes`, `error_count`, `warning_count`
+4. Compute an overall summary: total runs, total AI credits, total tokens, total action minutes.
+5. Sort workflows descending by `total_ai_credits`.
 6. Save the result to `/tmp/gh-aw/token-audit/audit_snapshot.json` with this shape:
 
 ```json
@@ -139,6 +140,7 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
   "period_days": 30,
   "overall": {
     "total_runs": N,
+    "total_ai_credits": F,
     "total_tokens": N,
     "total_action_minutes": F
   },
@@ -146,6 +148,8 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
     {
       "workflow_name": "...",
       "run_count": N,
+      "total_ai_credits": F,
+      "avg_ai_credits": F,
       "total_tokens": N,
       "avg_tokens": N,
       "total_turns": N,
@@ -159,7 +163,7 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 }
 ```
 
-Handle null/missing `token_usage` by treating them as 0.
+Handle null/missing `ai_credits` and `token_usage` by treating them as 0.
 
 ## Phase 2 — Persist Snapshot to Repo-Memory
 
@@ -167,7 +171,7 @@ Handle null/missing `token_usage` by treating them as 0.
 2. Copy it to `/tmp/gh-aw/repo-memory/default/YYYY-MM-DD.json` (today's UTC date).
 3. This file is what the optimizer workflow reads to identify high-usage workflows.
 
-Also maintain a rolling summary file at `/tmp/gh-aw/repo-memory/default/rolling-summary.json` that contains an array of daily overall totals (date, total_tokens, total_runs, total_action_minutes) for the last 90 entries. Load the existing file, append today's entry, trim to 90, and save.
+Also maintain a rolling summary file at `/tmp/gh-aw/repo-memory/default/rolling-summary.json` that contains an array of daily overall totals (date, total_ai_credits, total_tokens, total_runs, total_action_minutes) for the last 90 entries. Load the existing file, append today's entry, trim to 90, and save.
 
 Do not append a synthetic zero-valued entry to `rolling-summary.json` when either of these conditions is true:
 
@@ -180,8 +184,8 @@ Report those two cases differently in the issue as described below so the empty-
 
 Create up to two chart images in `/tmp/gh-aw/token-audit/charts/` using Python, `matplotlib`, and `seaborn` with `whitegrid` styling:
 
-1. **Token usage by workflow** (`token_by_workflow.png`): a horizontal bar chart of the top 15 workflows by total tokens from `audit_snapshot.json`.
-2. **Historical token trend** (`token_trend.png`): a line chart from `rolling-summary.json`.
+1. **AI credit spend by workflow** (`ai_credits_by_workflow.png`): a horizontal bar chart of the top 15 workflows by total AI credits from `audit_snapshot.json`.
+2. **Historical AI credit trend** (`ai_credits_trend.png`): a line chart from `rolling-summary.json`.
 
 Chart requirements:
 
@@ -191,8 +195,8 @@ Chart requirements:
 - Save only PNG files.
 - If there are fewer than 2 rolling-summary points, skip the trend chart and explain why in the issue.
 - After generating each chart, call `upload_asset` with its file path.
-- In the issue template below, replace `UPLOAD_URL_WORKFLOW_PLACEHOLDER` with the URL returned for `token_by_workflow.png`.
-- In the issue template below, replace `UPLOAD_URL_TREND_PLACEHOLDER` with the URL returned for `token_trend.png`.
+- In the issue template below, replace `UPLOAD_URL_WORKFLOW_PLACEHOLDER` with the URL returned for `ai_credits_by_workflow.png`.
+- In the issue template below, replace `UPLOAD_URL_TREND_PLACEHOLDER` with the URL returned for `ai_credits_trend.png`.
 - If a chart is skipped, omit that image markdown line entirely instead of leaving a placeholder behind.
 
 ## Phase 4 — Publish Audit Issue
@@ -213,13 +217,14 @@ Create an issue with these sections:
 
 - **Period**: last 24 hours (YYYY-MM-DD to YYYY-MM-DD)
 - **Total runs**: N
+- **Total AI credits**: N.NN AIC
 - **Total tokens**: N (formatted with commas)
 - **Total Actions minutes**: X.X min
 - **Active workflows**: N
 
-### 🏆 Top 5 Workflows by Token Usage
+### 🏆 Top 5 Workflows by AI Credit Spend
 
-| Workflow | Runs | Total Tokens | Avg Tokens |
+| Workflow | Runs | Total AI Credits | Avg AI Credits |
 |---|---|---|---|
 | ... | ... | ... | ... |
 
@@ -227,31 +232,31 @@ Create an issue with these sections:
 
 Embed chart images using uploaded asset URLs when available:
 
-![Token Usage by Workflow](UPLOAD_URL_WORKFLOW_PLACEHOLDER)
+![AI Credit Spend by Workflow](UPLOAD_URL_WORKFLOW_PLACEHOLDER)
 
-![Historical Token Trend](UPLOAD_URL_TREND_PLACEHOLDER)
+![Historical AI Credit Trend](UPLOAD_URL_TREND_PLACEHOLDER)
 
-Summarize token changes from `rolling-summary.json` when historical data is available.
+Summarize AI credit and token changes from `rolling-summary.json` when historical data is available.
 
 <details>
 <summary><b>Full Per-Workflow Breakdown</b></summary>
 
-[Complete table of all workflows sorted by total tokens]
+[Complete table of all workflows sorted by total AI credits]
 
 </details>
 
 ### 💡 Observations
 
-- Identify any workflow with >30% of total tokens as a "heavy hitter"
+- Identify any workflow with >30% of total AI credits as a "heavy hitter"
 - Note workflows with high error/warning counts relative to runs
-- Flag any workflow whose avg tokens per run exceeds 100,000
+- Flag any workflow whose avg AI credits per run exceeds 1.00 AIC
 
 **Data snapshot**: `memory/token-audit/YYYY-MM-DD.json`
 ```
 
 ## Important Notes
 
-- Use `// 0` (null coalescing) in jq and `.get(field, 0)` in Python for nullable numeric fields.
+- Use `// 0` (null coalescing) in jq and `.get(field, 0)` in Python for nullable numeric fields (`ai_credits`, `token_usage`).
 - Distinguish between these two cases in the issue:
   - the raw `.runs` array is empty
   - the raw `.runs` array is non-empty but none of the runs are `status == "completed"`
