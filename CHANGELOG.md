@@ -23,6 +23,13 @@ Changelog entries should describe what changed for users of these workflows, not
 - Omit vague filler like "various fixes" when the actual effect can be named.
 - Do not include contributor handles, reviewer names, or other attribution in release entries.
 
+## [0.3.1] - 2026-06-09
+
+### Fixed
+
+- Kept the published audit and optimizer workflows compatible with the current upstream `gh-aw` AIC/runtime log schema updates without changing the existing snapshot and summary fields that downstream reporting depends on.
+- Restored the audit workflow's explicit Python network allowlist so chart dependency installation remains supported in the packaged workflow.
+
 ## [0.3.0] - 2026-06-08
 
 ### Changed

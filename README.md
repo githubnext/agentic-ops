@@ -10,7 +10,7 @@ It is built for platform engineers, developer productivity teams, and repository
 ## Key Features
 
 - **Clear operational visibility** with a daily audit that captures AI credit spend, usage trends, and workflow-level hotspots.
-- **Actionable optimization guidance** that identifies high-AI-credit-spend workflows and proposes safe, conservative improvements.
+- **Actionable optimization guidance** that identifies high-AIC workflows and proposes safe, conservative improvements.
 - **Faster efficiency improvements** by helping teams find waste before it becomes recurring operational overhead.
 - **Built for real GitHub workflows** using GitHub Agentic Workflows, so installation and adoption fit naturally into existing repositories.
 - **Useful historical context** through shared snapshots that support trend analysis instead of one-off debugging.
@@ -50,8 +50,8 @@ Included workflows:
 
 | Workflow | What it does |
 | ----- | --- |
-| [`Daily Agentic Workflow AI Credit Spend Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily AI credit spend snapshot. |
-| [`Agentic Workflow AI Credit Spend Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-optimizer.md?plain=1) | Analyzes high-AI-credit-spend workflows and proposes conservative efficiency changes, including inline sub-agent opportunities when they are a strong fit. |
+| [`Daily Agentic Workflow AIC Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily AIC spend snapshot. |
+| [`Agentic Workflow AIC Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-optimizer.md?plain=1) | Analyzes high-AIC workflows and proposes conservative efficiency changes, including inline sub-agent opportunities when they are a strong fit. |
 
 ## License
 

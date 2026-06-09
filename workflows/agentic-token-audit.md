@@ -1,5 +1,5 @@
 ---
-description: Daily audit of AI credit spend across all agentic workflows with historical trend tracking
+description: Daily audit of AI Credit (AIC) usage across all agentic workflows with historical trend tracking
 on:
   schedule:
     - cron: "daily around 12:00 on weekdays"
@@ -9,6 +9,10 @@ permissions:
   actions: read
   issues: read
   pull-requests: read
+network:
+  allowed:
+    - defaults
+    - python
 tracker-id: agentic-token-audit
 safe-outputs:
   create-issue:
@@ -25,12 +29,12 @@ tools:
     - "*"
   repo-memory:
     branch-name: "memory/token-audit"
-    description: "Historical daily workflow token usage snapshots (shared with agentic-token-optimizer)"
+    description: "Historical daily workflow AIC snapshots (shared with agentic-token-optimizer)"
     file-glob: ["*.json", "*.jsonl", "*.csv", "*.md"]
     max-file-size: 102400
     max-patch-size: 51200
 steps:
-  - name: Setup Python runtime
+  - name: Setup Python
     uses: actions/setup-python@v6.2.0
     with:
       python-version: "3.12"
@@ -71,15 +75,15 @@ steps:
 timeout-minutes: 25
 ---
 
-# Daily Agentic Workflow AI Credit Spend Audit
+# Daily Agentic Workflow AIC Usage Audit
 
-You are the Agentic Workflow Auditor — a workflow that tracks daily AI credit spend and token consumption across all agentic workflows in this repository and maintains a historical record for trend analysis.
+You are the Agentic Workflow Auditor — a workflow that tracks daily AI Credit (AIC) spend and token consumption across all agentic workflows in this repository and maintains a historical record for trend analysis.
 
 ## Mission
 
-1. Parse the pre-downloaded agentic workflow logs and compute per-workflow AI credit spend and token usage metrics.
+1. Parse the pre-downloaded agentic workflow logs and compute per-workflow AIC spend and token usage metrics.
 2. Persist today's snapshot to repo-memory so the optimizer (and future runs of this audit) can read historical data.
-3. Publish a concise audit issue summarizing today's AI credit spend and trend highlights.
+3. Publish a concise audit issue summarizing today's AIC spend and trend highlights.
 
 ## Data Sources
 
@@ -103,9 +107,9 @@ Each element of `.runs` is a `RunData` object with (among others):
 |---|---|---|
 | `workflow_name` | string | Human-readable name |
 | `workflow_path` | string | `.github/workflows/....lock.yml` |
-| `ai_credits` | float | AI credits consumed (primary billing metric; 1 AIC = $0.01 USD) |
+| `aic` | float | AI Credits (AIC) consumed (primary billing metric; 1 AIC = $0.01 USD) |
 | `token_usage` | int | Total tokens (`omitempty` — treat missing/null as 0) |
-| `effective_tokens` | int | Legacy normalized token metric (deprecated; use `ai_credits` for billing) |
+| `effective_tokens` | int | Legacy normalized token metric (deprecated; use `aic` for billing) |
 | `action_minutes` | float | Billable GitHub Actions minutes |
 | `turns` | int | Number of agent turns |
 | `duration` | string | Human-readable duration |
@@ -163,7 +167,7 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 }
 ```
 
-Handle null/missing `ai_credits` and `token_usage` by treating them as 0.
+Handle null/missing `aic` and `token_usage` by treating them as 0.
 
 ## Phase 2 — Persist Snapshot to Repo-Memory
 
@@ -258,7 +262,7 @@ Summarize AI credit, token, and active-workflow changes from `rolling-summary.js
 
 ## Important Notes
 
-- Use `// 0` (null coalescing) in jq and `.get(field, 0)` in Python for nullable numeric fields (`ai_credits`, `token_usage`).
+- Use `// 0` (null coalescing) in jq and `.get(field, 0)` in Python for nullable numeric fields (`aic`, `token_usage`).
 - Distinguish between these two cases in the issue:
   - the raw `.runs` array is empty
   - the raw `.runs` array is non-empty but none of the runs are `status == "completed"`
