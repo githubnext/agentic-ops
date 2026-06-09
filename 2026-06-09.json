@@ -1,0 +1,13 @@
+{
+  "date": "2026-06-09",
+  "period_days": 30,
+  "raw_runs_count": 0,
+  "completed_runs_count": 0,
+  "overall": {
+    "total_runs": 0,
+    "total_ai_credits": 0,
+    "total_tokens": 0,
+    "total_action_minutes": 0
+  },
+  "workflows": []
+}
