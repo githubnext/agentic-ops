@@ -1,5 +1,5 @@
 ---
-description: Daily optimizer that identifies high-AI-credit-spend agentic workflows, audits their runs, and recommends efficiency improvements including inline sub-agent refactors when warranted
+description: Daily optimizer that identifies a high-AIC agentic workflow, audits its runs, and recommends efficiency improvements including inline sub-agent refactors when warranted
 on:
   schedule:
     - cron: "daily around 14:00 on weekdays"
@@ -18,7 +18,7 @@ tools:
     - "*"
   repo-memory:
     branch-name: "memory/token-audit"
-    description: "Historical daily workflow token usage snapshots (shared with agentic-token-audit)"
+    description: "Historical daily workflow AIC snapshots (shared with agentic-token-audit)"
     file-glob: ["*.json", "*.jsonl", "*.csv", "*.md"]
     max-file-size: 102400
     max-patch-size: 51200
@@ -58,7 +58,7 @@ steps:
         echo '{"runs":[],"summary":{}}' > /tmp/gh-aw/token-audit/all-runs.json
       fi
 
-  - name: Aggregate top workflows by token usage
+  - name: Aggregate top workflows by AIC usage
     run: |
       set -euo pipefail
       mkdir -p /tmp/gh-aw/token-audit
@@ -71,7 +71,7 @@ steps:
             | select(.status == "completed")
             | {
                 workflow_name: .workflow_name,
-                ai_credits: (.ai_credits // 0),
+                ai_credits: (.aic // 0),
                 tokens: (.token_usage // 0),
                 turns: (.turns // 0),
                 action_minutes: (.action_minutes // 0)
@@ -110,14 +110,14 @@ steps:
       fi
 ---
 
-# Agentic Workflow AI Credit Spend Optimizer
+# Agentic Workflow AIC Usage Optimizer
 
-You are the Agentic Workflow Optimizer. Pick one high-AI-credit-spend workflow, audit recent runs, and create a conservative optimization issue with measurable improvements. Your recommendations may include prompt, tool, reliability, setup-prefix, and inline sub-agent improvements when the evidence supports them.
+You are the Agentic Workflow Optimizer. Pick one high-AIC workflow, audit recent runs, and create a conservative optimization issue with measurable improvements. Your recommendations may include prompt, tool, reliability, setup-prefix, and inline sub-agent improvements when the evidence supports them.
 
 ## Objectives
 
 1. Select one workflow using repo-memory and pre-aggregated data.
-2. Analyze tokens, turns, errors, tool usage patterns, and prompt structure across multiple runs.
+2. Analyze AIC, tokens, turns, errors, tool usage patterns, and prompt structure across multiple runs.
 3. Propose safe, high-impact optimizations with evidence, including inline sub-agent refactors only when they are a clear fit.
 4. Publish one issue and update optimization history.
 
@@ -151,11 +151,11 @@ Prefer `--jq` on `gh api` calls over a separate `| jq` step when the filter is s
 ## Data Inputs
 
 - `/tmp/gh-aw/token-audit/all-runs.json`: full 7-day run data (`gh aw logs --json`).
-- `/tmp/gh-aw/token-audit/top-workflows.json`: pre-aggregated top 10 workflows by total AI credits.
+- `/tmp/gh-aw/token-audit/top-workflows.json`: pre-aggregated top 10 workflows by total AIC.
 - `/tmp/gh-aw/repo-memory/default/YYYY-MM-DD.json`: daily audit snapshots.
 - `/tmp/gh-aw/repo-memory/default/optimization-log.json`: prior optimizations (if present).
 
-Treat missing numeric fields (`ai_credits`, `token_usage`, `turns`, `action_minutes`) as `0`.
+Treat missing numeric fields (`aic`, `token_usage`, `turns`, `action_minutes`) as `0`.
 
 ## Phase 1 — Select Target
 
@@ -168,7 +168,7 @@ Treat missing numeric fields (`ai_credits`, `token_usage`, `turns`, `action_minu
 Then collect run-level data for the selected workflow:
 
 - run count
-- total and average AI credits
+- total and average AIC
 - total and average tokens
 - total and average turns
 - conclusions/error patterns
@@ -180,8 +180,8 @@ Use this compact analysis matrix:
 | Area | Required checks | Output |
 |---|---|---|
 | Tool usage | Compare configured tools from workflow source vs observed usage across multiple runs | Keep / Consider removing / Remove |
-| AI credit spend | Evaluate AI credits, token totals, cache efficiency, turns | Top spend drivers |
-| Reliability | Repeated errors, warnings, retries, missing tools | AI credit waste from failures |
+| AI credit spend | Evaluate AIC, token totals, cache efficiency, turns | Top spend drivers |
+| Reliability | Repeated errors, warnings, retries, missing tools | AIC waste from failures |
 | Prompt efficiency | Redundant instructions, overlong sections, avoidable iteration | Prompt reduction opportunities |
 | Structural optimization | Repeated setup/tool-call prefixes and sections suited for inline sub-agents | Extract setup / Add sub-agent / Keep in main agent |
 
@@ -283,10 +283,10 @@ Create one issue with:
 
 - **Target workflow + reason selected**
 - **Analysis period + runs analyzed**
-- **Spend profile table** (total AI credits, avg AI credits/run, total tokens, avg turns/run, cache efficiency)
+- **Spend profile table** (total AIC, avg AIC/run, total tokens, avg turns/run, cache efficiency)
 - **Ranked recommendations** with:
   - title
-  - estimated AI credit savings per run
+  - estimated AIC savings per run
   - concrete action
   - evidence from observed runs
 - **Optional structural optimizations** for shared setup prefixes and inline sub-agents when supported by the analysis
@@ -304,7 +304,7 @@ Create one issue with:
 
 Append one entry to `/tmp/gh-aw/repo-memory/default/optimization-log.json`:
 
-`{"date":"YYYY-MM-DD","workflow_name":"...","total_ai_credits_analyzed":F,"total_tokens_analyzed":N,"runs_audited":N,"recommendations_count":N,"subagent_candidates":N,"estimated_ai_credit_savings_per_run":F}`
+`{"date":"YYYY-MM-DD","workflow_name":"...","total_ai_credits_analyzed":F,"total_tokens_analyzed":N,"runs_audited":N,"recommendations_count":N,"subagent_candidates":N,"estimated_aic_savings_per_run":F}`
 
 Use `subagent_candidates` for the count of inline sub-agent candidates you actually recommend in the issue body.
 
