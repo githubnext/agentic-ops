@@ -58,6 +58,17 @@ steps:
         echo '{"runs":[],"summary":{}}' > /tmp/gh-aw/token-audit/all-runs.json
       fi
 
+      # Exclude the AIC monitoring family (this optimizer + its sibling audit) from the
+      # candidate pool so the optimizer never selects its own meta-monitoring workflows.
+      # The in-prompt "Token in the name" guard misses these: their display names are
+      # "...AIC Usage Optimizer/Audit" (no "Token"), so match on workflow id/name here.
+      jq '.runs |= map(select(
+            (((.workflow_path // "") | test("agentic-token-(optimizer|audit)"))
+             or ((.workflow_name // "") | test("AIC Usage (Optimizer|Audit)"))) | not
+          ))' /tmp/gh-aw/token-audit/all-runs.json > /tmp/gh-aw/token-audit/all-runs.filtered.json \
+        && mv /tmp/gh-aw/token-audit/all-runs.filtered.json /tmp/gh-aw/token-audit/all-runs.json
+      echo "🚫 Excluded AIC monitoring family — $(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json) runs remain in candidate pool"
+
   - name: Aggregate top workflows by AIC usage
     run: |
       set -euo pipefail
@@ -161,7 +172,7 @@ Treat missing numeric fields (`aic`, `token_usage`, `turns`, `action_minutes`) a
 
 - Start from `top-workflows.json`.
 - Exclude workflows optimized in the last 14 days (use `optimization-log.json`).
-- Exclude workflows with "Token" in the name to avoid self-targeting.
+- Exclude the AIC monitoring family — the `agentic-token-optimizer` and `agentic-token-audit` workflows (display names "Agentic Workflow AIC Usage Optimizer" / "Daily Agentic Workflow AIC Usage Audit") — to avoid self-targeting. These are also pre-filtered from `all-runs.json`/`top-workflows.json`, but never select them even if a stale snapshot still lists them.
 - Choose the highest AI-credit-spend workflow that remains.
 - If no snapshot/history exists, derive candidates directly from `all-runs.json`.
 
