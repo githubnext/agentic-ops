@@ -40,23 +40,46 @@ steps:
 
       echo "📥 Downloading agentic workflow logs (last 7 days)..."
 
-      LOGS_EXIT=0
-      gh aw logs \
-        --start-date -7d \
-        --json \
-        -c 50 \
-        > /tmp/gh-aw/token-audit/all-runs.json || LOGS_EXIT=$?
+      # Fetch logs one workflow at a time. `gh aw logs` without a workflow
+      # filter scans repo-wide `gh run list` batches (newest-first, 250 runs
+      # each) and stops paginating as soon as one batch contains no
+      # processable agentic runs (skipped/cancelled runs are dropped before
+      # the empty-batch check — see github/gh-aw#38782). In a high-CI-volume
+      # repo a batch spans only a couple of hours, so the unfiltered call
+      # truncates the candidate pool to whatever ran most recently.
+      # Workflow-scoped listing is unaffected by repo CI volume. Partial
+      # results are fine — each per-workflow file that was written
+      # successfully still gets merged.
+      PARTS_DIR=/tmp/gh-aw/token-audit/log-parts
+      mkdir -p "$PARTS_DIR"
 
-      if [ -s /tmp/gh-aw/token-audit/all-runs.json ]; then
-        TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json)
-        echo "✅ Downloaded $TOTAL agentic workflow runs (last 7 days)"
-        if [ "$LOGS_EXIT" -ne 0 ]; then
-          echo "⚠️ gh aw logs exited with code $LOGS_EXIT (partial results — likely API rate limit)"
+      for lock in .github/workflows/*.lock.yml; do
+        id=$(basename "$lock" .lock.yml)
+        PART_EXIT=0
+        gh aw logs "$id" \
+          --start-date -7d \
+          --json \
+          -c 50 \
+          > "$PARTS_DIR/$id.json" || PART_EXIT=$?
+        if [ -s "$PARTS_DIR/$id.json" ]; then
+          COUNT=$(jq '.runs | length' "$PARTS_DIR/$id.json" 2>/dev/null || echo 0)
+          echo "✅ $id: $COUNT runs (exit code $PART_EXIT)"
+        else
+          echo "⚠️ $id: no log data (exit code $PART_EXIT)"
+          rm -f "$PARTS_DIR/$id.json"
         fi
+      done
+
+      if ls "$PARTS_DIR"/*.json >/dev/null 2>&1; then
+        jq -s '{summary: {}, runs: (map(.runs // []) | add | unique_by(.run_id))}' \
+          "$PARTS_DIR"/*.json > /tmp/gh-aw/token-audit/all-runs.json
       else
-        echo "❌ No log data downloaded (exit code $LOGS_EXIT)"
+        echo "❌ No log data downloaded for any workflow"
         echo '{"runs":[],"summary":{}}' > /tmp/gh-aw/token-audit/all-runs.json
       fi
+
+      TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json)
+      echo "✅ Merged $TOTAL agentic workflow runs (last 7 days)"
 
       # Exclude the AIC monitoring family (this optimizer + its sibling audit) from the
       # candidate pool so the optimizer never selects its own meta-monitoring workflows.
