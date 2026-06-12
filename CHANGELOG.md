@@ -23,6 +23,12 @@ Changelog entries should describe what changed for users of these workflows, not
 - Omit vague filler like "various fixes" when the actual effect can be named.
 - Do not include contributor handles, reviewer names, or other attribution in release entries.
 
+## [0.3.2] - 2026-06-12
+
+### Changed
+
+- Consolidated published workflow sources under `.github/workflows/` and removed the legacy `workflows/` directory. If you reference workflow files by path, update those references to `.github/workflows/...`.
+
 ## [0.3.1] - 2026-06-09
 
 ### Fixed
