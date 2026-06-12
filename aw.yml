@@ -2,6 +2,6 @@ manifest-version: "1"
 name: agentic-ops
 description: Reusable agentic workflows for auditing AI credit spend and optimizing workflow efficiency.
 emoji: "🤖"
-files:
-  - workflows/agentic-token-audit.md
-  - workflows/agentic-token-optimizer.md
+includes:
+  - .github/workflows/agentic-token-audit.md
+  - .github/workflows/agentic-token-optimizer.md
