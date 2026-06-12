@@ -50,8 +50,8 @@ Included workflows:
 
 | Workflow | What it does |
 | ----- | --- |
-| [`Daily Agentic Workflow AIC Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily AIC spend snapshot. |
-| [`Agentic Workflow AIC Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/workflows/agentic-token-optimizer.md?plain=1) | Analyzes high-AIC workflows and proposes conservative efficiency changes, including inline sub-agent opportunities when they are a strong fit. |
+| [`Daily Agentic Workflow AIC Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/.github/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily AIC spend snapshot. |
+| [`Agentic Workflow AIC Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/.github/workflows/agentic-token-optimizer.md?plain=1) | Analyzes high-AIC workflows and proposes conservative efficiency changes, including inline sub-agent opportunities when they are a strong fit. |
 
 ## License
 

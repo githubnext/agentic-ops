@@ -32,7 +32,7 @@ jobs:
           TARGET_REPO=$(mktemp -d)
           git init "$TARGET_REPO"
           cd "$TARGET_REPO"
-          gh aw add "${{ github.workspace }}/workflows/agentic-token-audit.md" "${{ github.workspace }}/workflows/agentic-token-optimizer.md"
+          gh aw add "${{ github.workspace }}/.github/workflows/agentic-token-audit.md" "${{ github.workspace }}/.github/workflows/agentic-token-optimizer.md"
           gh aw compile --validate --no-emit
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
           RUN_BRANCH="ci/install-workflows-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git switch --create "$RUN_BRANCH"
 
-          gh aw add --force "${{ github.workspace }}/workflows/agentic-token-audit.md" "${{ github.workspace }}/workflows/agentic-token-optimizer.md"
+          gh aw add --force "${{ github.workspace }}/.github/workflows/agentic-token-audit.md" "${{ github.workspace }}/.github/workflows/agentic-token-optimizer.md"
           gh aw compile
 
           git config user.name "github-actions[bot]"
@@ -96,7 +96,7 @@ jobs:
             --base main \
             --head "$RUN_BRANCH" \
             --title "ci: install workflows for execution" \
-            --body "Automated workflow installation from source files in workflows/." )
+            --body "Automated workflow installation from source files in .github/workflows/." )
 
           gh pr merge "$pr_url" --auto --squash --delete-branch
           echo "pr_url=$pr_url" >> "$GITHUB_OUTPUT"
