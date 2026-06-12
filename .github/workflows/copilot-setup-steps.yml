@@ -45,13 +45,6 @@ jobs:
 
           gh aw add "${{ github.repository }}/agentic-token-audit" "${{ github.repository }}/agentic-token-optimizer"
           gh aw compile --validate --no-emit
-      - name: Validate published workflows
-        env:
-          GH_TOKEN: ${{ github.token }}
-          SOURCE_DIR: ${{ github.workspace }}/workflows
-        run: |
-          set -euo pipefail
-          gh aw compile --dir workflows --validate --no-emit
       - name: Run published workflows on this repo
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_workflows == 'true' }}
         env:
