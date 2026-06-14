@@ -21,9 +21,9 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up gh-aw CLI
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # setup-cli action pin (installs CLI v0.72.1 below)
+        uses: github/gh-aw-actions/setup-cli@5c2fe865bb4dc46e1450f6ee0d0541d759aea73a # v0.79.6
         with:
-          version: v0.72.1
+          version: v0.79.6
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate workflow installation from local sources
@@ -62,9 +62,9 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up gh-aw CLI
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # setup-cli action pin (installs CLI v0.72.1 below)
+        uses: github/gh-aw-actions/setup-cli@5c2fe865bb4dc46e1450f6ee0d0541d759aea73a # v0.79.6
         with:
-          version: v0.72.1
+          version: v0.79.6
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install workflows on main via PR and enable auto-merge

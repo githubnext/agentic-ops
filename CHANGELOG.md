@@ -23,6 +23,17 @@ Changelog entries should describe what changed for users of these workflows, not
 - Omit vague filler like "various fixes" when the actual effect can be named.
 - Do not include contributor handles, reviewer names, or other attribution in release entries.
 
+## [Unreleased]
+
+## [0.3.3] - 2026-06-14
+
+### Fixed
+
+- Improved audit and optimizer data collection in busy repositories by fetching workflow logs per workflow before merging results, which avoids incomplete analysis caused by repo-wide log truncation.
+- Corrected optimizer candidate selection so it no longer ranks completed runs with zero AIC and no longer targets the audit/optimizer monitoring workflows themselves.
+- Restored release-note generation after the workflow source move to `.github/workflows/` so published releases continue to discover the packaged workflow sources correctly.
+- Aligned workflow installation validation with the current `gh aw` CLI version used by the generated workflows, reducing publish-time drift between source validation and compiled lock output.
+
 ## [0.3.2] - 2026-06-12
 
 ### Changed
