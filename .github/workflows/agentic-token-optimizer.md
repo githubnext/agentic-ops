@@ -97,12 +97,21 @@ steps:
 
       BEFORE_COUNT=$(jq '(.runs // []) | length' /tmp/gh-aw/token-audit/all-runs.json)
       jq '
-        .runs |= map(select(
-          (.workflow_path // "") != ".github/workflows/agentic-token-optimizer.lock.yml"
-          and (.workflow_path // "") != ".github/workflows/agentic-token-audit.lock.yml"
-          and (.workflow_name // "") != "Agentic Workflow AIC Usage Optimizer"
-          and (.workflow_name // "") != "Daily Agentic Workflow AIC Usage Audit"
-        ))
+          (.runs // [])
+          | map(select(
+              (.workflow_path // "") != ".github/workflows/agentic-token-optimizer.lock.yml"
+              and (.workflow_path // "") != ".github/workflows/agentic-token-audit.lock.yml"
+              and (.workflow_name // "") != "Agentic Workflow AIC Usage Optimizer"
+              and (.workflow_name // "") != "Daily Agentic Workflow AIC Usage Audit"
+            )) as $runs
+          | {
+              summary: {
+                total_runs: ($runs | length),
+                total_tokens: ($runs | map(.token_usage // 0) | add // 0),
+                total_aic: ($runs | map(.aic // 0) | add // 0)
+              },
+              runs: $runs
+            }
       ' /tmp/gh-aw/token-audit/all-runs.json > /tmp/gh-aw/token-audit/all-runs.filtered.json
       mv /tmp/gh-aw/token-audit/all-runs.filtered.json /tmp/gh-aw/token-audit/all-runs.json
       AFTER_COUNT=$(jq '(.runs // []) | length' /tmp/gh-aw/token-audit/all-runs.json)
