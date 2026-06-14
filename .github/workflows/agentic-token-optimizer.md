@@ -37,24 +37,51 @@ steps:
     run: |
       set -euo pipefail
       mkdir -p /tmp/gh-aw/token-audit
+      PARTS_DIR=/tmp/gh-aw/token-audit/log-parts
+      mkdir -p "$PARTS_DIR"
 
       echo "📥 Downloading agentic workflow logs (last 7 days)..."
 
-      LOGS_EXIT=0
-      gh aw logs \
-        --start-date -7d \
-        --json \
-        -c 50 \
-        > /tmp/gh-aw/token-audit/all-runs.json || LOGS_EXIT=$?
+      FOUND_WORKFLOW=0
+      for workflow in .github/workflows/*.md; do
+        [ -f "$workflow" ] || continue
 
-      if [ -s /tmp/gh-aw/token-audit/all-runs.json ]; then
+        WORKFLOW_ID=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$workflow" | head -n 1)
+        [ -n "$WORKFLOW_ID" ] || continue
+
+        FOUND_WORKFLOW=1
+        PART_FILE="$PARTS_DIR/$WORKFLOW_ID.json"
+        PART_EXIT=0
+        gh aw logs "$WORKFLOW_ID" \
+          --start-date -7d \
+          --json \
+          -c 50 \
+          > "$PART_FILE" || PART_EXIT=$?
+
+        if ! jq -e . "$PART_FILE" >/dev/null 2>&1; then
+          echo "⚠️ $WORKFLOW_ID: invalid log JSON (exit code $PART_EXIT)"
+          rm -f "$PART_FILE"
+          continue
+        fi
+
+        COUNT=$(jq '(.runs // []) | length' "$PART_FILE")
+        if [ "$COUNT" -gt 0 ]; then
+          echo "✅ $WORKFLOW_ID: downloaded $COUNT runs (exit code $PART_EXIT)"
+        else
+          echo "⚠️ $WORKFLOW_ID: no log data (exit code $PART_EXIT)"
+          rm -f "$PART_FILE"
+        fi
+      done
+
+      if [ "$FOUND_WORKFLOW" -eq 1 ] && ls "$PARTS_DIR"/*.json >/dev/null 2>&1; then
+        jq -s '{summary: {}, runs: (map(.runs // []) | add | unique_by(.run_id))}' \
+          "$PARTS_DIR"/*.json > /tmp/gh-aw/token-audit/all-runs.json
         TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/all-runs.json)
         echo "✅ Downloaded $TOTAL agentic workflow runs (last 7 days)"
-        if [ "$LOGS_EXIT" -ne 0 ]; then
-          echo "⚠️ gh aw logs exited with code $LOGS_EXIT (partial results — likely API rate limit)"
-        fi
       else
-        echo "❌ No log data downloaded (exit code $LOGS_EXIT)"
+        if [ "$FOUND_WORKFLOW" -eq 0 ]; then
+          echo "⚠️ No agentic workflow sources found under .github/workflows"
+        fi
         echo '{"runs":[],"summary":{}}' > /tmp/gh-aw/token-audit/all-runs.json
       fi
 
