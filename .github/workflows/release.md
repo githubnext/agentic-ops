@@ -121,11 +121,11 @@ steps:
           > /tmp/gh-aw/release-data/changed_files.txt
       else
         : > /tmp/gh-aw/release-data/commit_subjects.tsv
-        find workflows -maxdepth 1 -type f -name '*.md' | sort \
+        find .github/workflows -maxdepth 1 -type f -name '*.md' | sort \
           > /tmp/gh-aw/release-data/changed_files.txt
       fi
 
-      find workflows -maxdepth 1 -type f -name '*.md' | sort \
+      find .github/workflows -maxdepth 1 -type f -name '*.md' | sort \
         > /tmp/gh-aw/release-data/workflow_sources.txt
 
 ---
