@@ -37,7 +37,7 @@ jobs:
       release_tag: ${{ steps.create_release.outputs.release_tag }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
           persist-credentials: false
           ref: ${{ env.RELEASE_TARGET }}
@@ -46,7 +46,7 @@ jobs:
           RELEASE_TARGET: ${{ inputs.target }}
 
       - name: Set up gh-aw CLI
-        uses: github/gh-aw-actions/setup-cli@f8495a686e66770ae977f82732f34d7340ee42a4 # v0.72.1
+        uses: github/gh-aw-actions/setup-cli@c0338fef4749d08c21f8f975fb0e37efa17dda47  # v0.79.8
         with:
           version: v0.72.1
           github-token: ${{ secrets.GITHUB_TOKEN }}
