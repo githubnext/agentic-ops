@@ -106,6 +106,7 @@ steps:
         top_workflows: (
           [.runs[]
             | select(.status == "completed")
+              | select((.aic // 0) > 0)
             | {
                 workflow_name: .workflow_name,
                 ai_credits: (.aic // 0),
