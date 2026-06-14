@@ -59,11 +59,12 @@ steps:
       for workflow in .github/workflows/*.md; do
         [ -f "$workflow" ] || continue
 
-        WORKFLOW_ID=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$workflow" | head -n 1)
+        WORKFLOW_ID=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$workflow" | head -n 1 | tr -d '\r' | sed 's/[[:space:]]*$//')
         [ -n "$WORKFLOW_ID" ] || continue
 
         FOUND_WORKFLOW=1
-        PART_FILE="$PARTS_DIR/$WORKFLOW_ID.json"
+        SAFE_WORKFLOW_ID=$(printf '%s' "$WORKFLOW_ID" | tr -cs 'A-Za-z0-9._-' '_')
+        PART_FILE="$PARTS_DIR/$SAFE_WORKFLOW_ID.json"
         PART_EXIT=0
         gh aw logs "$WORKFLOW_ID" \
           --start-date -1d \
