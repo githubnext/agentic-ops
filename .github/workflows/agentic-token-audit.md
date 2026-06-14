@@ -88,8 +88,17 @@ steps:
       done
 
       if [ "$FOUND_WORKFLOW" -eq 1 ] && ls "$PARTS_DIR"/*.json >/dev/null 2>&1; then
-        jq -s '{summary: {}, runs: (map(.runs // []) | add | unique_by(.run_id))}' \
-          "$PARTS_DIR"/*.json > /tmp/gh-aw/token-audit/workflow-logs.json
+        jq -s '
+          (map(.runs // []) | add // [] | unique_by(.run_id)) as $runs |
+          {
+            summary: {
+              total_runs: ($runs | length),
+              total_tokens: ($runs | map(.token_usage // 0) | add // 0),
+              total_aic: ($runs | map(.aic // 0) | add // 0)
+            },
+            runs: $runs
+          }
+        ' "$PARTS_DIR"/*.json > /tmp/gh-aw/token-audit/workflow-logs.json
         TOTAL=$(jq '.runs | length' /tmp/gh-aw/token-audit/workflow-logs.json)
         echo "✅ Downloaded $TOTAL agentic workflow runs (last 24 hours)"
       else
