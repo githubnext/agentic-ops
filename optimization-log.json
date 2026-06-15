@@ -1,14 +1,6 @@
 [
   {
     "date": "2026-05-14",
-    "workflow_name": "Copilot cloud agent",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 10,
-    "recommendations_count": 3,
-    "estimated_savings_per_run": 20
-  },
-  {
-    "date": "2026-05-14",
     "workflow_name": "Daily Copilot Token Usage Audit",
     "total_tokens_analyzed": 0,
     "runs_audited": 5,
@@ -266,5 +258,15 @@
     "recommendations_count": 2,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 0.0
+  },
+  {
+    "date": "2026-06-15",
+    "workflow_name": "Copilot (PR Code Reviewer)",
+    "total_ai_credits_analyzed": 0.0,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 4,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 0.3
   }
 ]
