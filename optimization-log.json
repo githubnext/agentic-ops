@@ -1,14 +1,6 @@
 [
   {
     "date": "2026-05-14",
-    "workflow_name": "Daily Copilot Token Usage Audit",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 5,
-    "recommendations_count": 4,
-    "estimated_savings_per_run": 500
-  },
-  {
-    "date": "2026-05-14",
     "workflow_name": "Release",
     "total_tokens_analyzed": 3079,
     "runs_audited": 1,
@@ -268,5 +260,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 0.3
+  },
+  {
+    "date": "2026-06-16",
+    "workflow_name": "Install Workflows",
+    "total_ai_credits_analyzed": 0.0,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 20,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 0.0
   }
 ]
