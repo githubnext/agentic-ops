@@ -1,14 +1,6 @@
 [
   {
     "date": "2026-05-14",
-    "workflow_name": "Release",
-    "total_tokens_analyzed": 3079,
-    "runs_audited": 1,
-    "recommendations_count": 3,
-    "estimated_savings_per_run": 900
-  },
-  {
-    "date": "2026-05-14",
     "workflow_name": "Agentic Maintenance",
     "total_tokens_analyzed": 0,
     "runs_audited": 1,
@@ -267,6 +259,16 @@
     "total_ai_credits_analyzed": 0.0,
     "total_tokens_analyzed": 0,
     "runs_audited": 20,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 0.0
+  },
+  {
+    "date": "2026-06-17",
+    "workflow_name": "Copilot cloud agent",
+    "total_ai_credits_analyzed": 0.0,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 8,
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 0.0
