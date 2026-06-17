@@ -1,0 +1,40 @@
+{
+  "date": "2026-06-17",
+  "period_days": 1,
+  "overall": {
+    "total_runs": 2,
+    "total_ai_credits": 480.68799,
+    "total_tokens": 1351494,
+    "total_action_minutes": 28
+  },
+  "workflows": [
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 312.41304,
+      "avg_ai_credits": 312.41304,
+      "total_tokens": 863361,
+      "avg_tokens": 863361,
+      "total_turns": 22,
+      "avg_turns": 22.0,
+      "total_action_minutes": 18,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/27630859380"
+    },
+    {
+      "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+      "run_count": 1,
+      "total_ai_credits": 168.27495,
+      "avg_ai_credits": 168.27495,
+      "total_tokens": 488133,
+      "avg_tokens": 488133,
+      "total_turns": 13,
+      "avg_turns": 13.0,
+      "total_action_minutes": 10,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/27623673378"
+    }
+  ]
+}
