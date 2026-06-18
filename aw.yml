@@ -5,3 +5,6 @@ emoji: "🤖"
 includes:
   - .github/workflows/agentic-token-audit.md
   - .github/workflows/agentic-token-optimizer.md
+  - .github/workflows/daily-ai-poem.md
+  - .github/workflows/daily-agentic-research.md
+  - .github/workflows/daily-xkcd.md
