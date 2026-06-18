@@ -25,7 +25,7 @@ tools:
 tracker-id: daily-agentic-research
 safe-outputs:
   create-discussion:
-    title-prefix: "🔬 "
+    title-prefix: "[research] "
     expires: 8d
     max: 1
     category: general
