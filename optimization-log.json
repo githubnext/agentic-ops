@@ -1,13 +1,5 @@
 [
   {
-    "date": "2026-05-14",
-    "workflow_name": "Agentic Maintenance",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 1,
-    "recommendations_count": 3,
-    "estimated_savings_per_run": 5
-  },
-  {
     "date": "2026-05-15",
     "workflow_name": "Daily Sub-Agent Optimizer",
     "total_tokens_analyzed": 0,
@@ -272,5 +264,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 0.0
+  },
+  {
+    "date": "2026-06-18",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 148.61397,
+    "total_tokens_analyzed": 420772,
+    "runs_audited": 1,
+    "recommendations_count": 3,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 55.0
   }
 ]
