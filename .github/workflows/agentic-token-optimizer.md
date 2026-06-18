@@ -49,6 +49,14 @@ steps:
         WORKFLOW_ID=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$workflow" | head -n 1 | tr -d '\r' | sed 's/[[:space:]]*$//')
         [ -n "$WORKFLOW_ID" ] || continue
 
+        # Skip the AIC monitoring family regardless of which repo this is running in.
+        # These workflows are maintained in githubnext/agentic-ops; optimization
+        # suggestions for them belong there, not in downstream repositories.
+        if [[ "$WORKFLOW_ID" == "agentic-token-optimizer" || "$WORKFLOW_ID" == "agentic-token-audit" ]]; then
+          echo "⏭️ Skipping $WORKFLOW_ID (AIC monitoring family — not a valid optimization target)"
+          continue
+        fi
+
         FOUND_WORKFLOW=1
         SAFE_WORKFLOW_ID=$(printf '%s' "$WORKFLOW_ID" | tr -cs 'A-Za-z0-9._-' '_')
         PART_FILE="$PARTS_DIR/$SAFE_WORKFLOW_ID.json"
@@ -221,7 +229,7 @@ Treat missing numeric fields (`aic`, `token_usage`, `turns`, `action_minutes`) a
 
 - Start from `top-workflows.json`.
 - Exclude workflows optimized in the last 14 days (use `optimization-log.json`).
-- Exclude the AIC monitoring family — the `agentic-token-optimizer` and `agentic-token-audit` workflows (display names "Agentic Workflow AIC Usage Optimizer" and "Daily Agentic Workflow AIC Usage Audit") — to avoid self-targeting. These workflows are pre-filtered from `all-runs.json` and `top-workflows.json`, but never select them even if a stale snapshot still lists them.
+- Exclude the AIC monitoring family — the `agentic-token-optimizer` and `agentic-token-audit` workflows (display names "Agentic Workflow AIC Usage Optimizer" and "Daily Agentic Workflow AIC Usage Audit") — to avoid self-targeting. This rule applies **regardless of which repository this workflow is running in**: these workflows are maintained in `githubnext/agentic-ops`, and any optimization changes to them belong there, not in downstream repositories. These workflows are pre-filtered from `all-runs.json` and `top-workflows.json`, but never select them even if a stale snapshot still lists them.
 - Choose the highest AI-credit-spend workflow that remains.
 - If no snapshot/history exists, derive candidates directly from `all-runs.json`.
 
