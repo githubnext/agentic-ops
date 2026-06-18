@@ -23,7 +23,7 @@ tools:
 tracker-id: daily-xkcd
 safe-outputs:
   create-discussion:
-    title-prefix: "🎨 xkcd: "
+    title-prefix: "[xkcd] "
     expires: 8d
     max: 1
     category: general
