@@ -49,6 +49,15 @@ steps:
         WORKFLOW_ID=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$workflow" | head -n 1 | tr -d '\r' | sed 's/[[:space:]]*$//')
         [ -n "$WORKFLOW_ID" ] || continue
 
+        # Skip the AIC monitoring family in downstream repositories.
+        # In the source repo (githubnext/agentic-ops) they remain valid targets;
+        # in any other repo, optimization suggestions for them belong upstream.
+        if [[ "$GITHUB_REPOSITORY" != "githubnext/agentic-ops" && \
+              ("$WORKFLOW_ID" == "agentic-token-optimizer" || "$WORKFLOW_ID" == "agentic-token-audit") ]]; then
+          echo "⏭️ Skipping $WORKFLOW_ID (AIC monitoring family — optimize in githubnext/agentic-ops, not here)"
+          continue
+        fi
+
         FOUND_WORKFLOW=1
         SAFE_WORKFLOW_ID=$(printf '%s' "$WORKFLOW_ID" | tr -cs 'A-Za-z0-9._-' '_')
         PART_FILE="$PARTS_DIR/$SAFE_WORKFLOW_ID.json"
@@ -96,26 +105,31 @@ steps:
       fi
 
       BEFORE_COUNT=$(jq '(.runs // []) | length' /tmp/gh-aw/token-audit/all-runs.json)
-      jq '
-          (.runs // [])
-          | map(select(
-              (.workflow_path // "") != ".github/workflows/agentic-token-optimizer.lock.yml"
-              and (.workflow_path // "") != ".github/workflows/agentic-token-audit.lock.yml"
-              and (.workflow_name // "") != "Agentic Workflow AIC Usage Optimizer"
-              and (.workflow_name // "") != "Daily Agentic Workflow AIC Usage Audit"
-            )) as $runs
-          | {
-              summary: {
-                total_runs: ($runs | length),
-                total_tokens: ($runs | map(.token_usage // 0) | add // 0),
-                total_aic: ($runs | map(.aic // 0) | add // 0)
-              },
-              runs: $runs
-            }
-      ' /tmp/gh-aw/token-audit/all-runs.json > /tmp/gh-aw/token-audit/all-runs.filtered.json
-      mv /tmp/gh-aw/token-audit/all-runs.filtered.json /tmp/gh-aw/token-audit/all-runs.json
-      AFTER_COUNT=$(jq '(.runs // []) | length' /tmp/gh-aw/token-audit/all-runs.json)
-      echo "🚫 Excluded AIC monitoring family from candidate pool: $((BEFORE_COUNT - AFTER_COUNT)) run(s) removed"
+      if [[ "$GITHUB_REPOSITORY" != "githubnext/agentic-ops" ]]; then
+        jq '
+            (.runs // [])
+            | map(select(
+                (.workflow_path // "") != ".github/workflows/agentic-token-optimizer.lock.yml"
+                and (.workflow_path // "") != ".github/workflows/agentic-token-audit.lock.yml"
+                and (.workflow_name // "") != "Agentic Workflow AIC Usage Optimizer"
+                and (.workflow_name // "") != "Daily Agentic Workflow AIC Usage Audit"
+              )) as $runs
+            | {
+                summary: {
+                  total_runs: ($runs | length),
+                  total_tokens: ($runs | map(.token_usage // 0) | add // 0),
+                  total_aic: ($runs | map(.aic // 0) | add // 0)
+                },
+                runs: $runs
+              }
+        ' /tmp/gh-aw/token-audit/all-runs.json > /tmp/gh-aw/token-audit/all-runs.filtered.json
+        mv /tmp/gh-aw/token-audit/all-runs.filtered.json /tmp/gh-aw/token-audit/all-runs.json
+        AFTER_COUNT=$(jq '(.runs // []) | length' /tmp/gh-aw/token-audit/all-runs.json)
+        echo "🚫 Excluded AIC monitoring family from candidate pool: $((BEFORE_COUNT - AFTER_COUNT)) run(s) removed"
+      else
+        echo "ℹ️ Running in source repo — AIC monitoring family remains in candidate pool"
+        AFTER_COUNT=$BEFORE_COUNT
+      fi
 
   - name: Aggregate top workflows by AIC usage
     run: |
@@ -221,7 +235,7 @@ Treat missing numeric fields (`aic`, `token_usage`, `turns`, `action_minutes`) a
 
 - Start from `top-workflows.json`.
 - Exclude workflows optimized in the last 14 days (use `optimization-log.json`).
-- Exclude the AIC monitoring family — the `agentic-token-optimizer` and `agentic-token-audit` workflows (display names "Agentic Workflow AIC Usage Optimizer" and "Daily Agentic Workflow AIC Usage Audit") — to avoid self-targeting. These workflows are pre-filtered from `all-runs.json` and `top-workflows.json`, but never select them even if a stale snapshot still lists them.
+- Exclude the AIC monitoring family — the `agentic-token-optimizer` and `agentic-token-audit` workflows (display names "Agentic Workflow AIC Usage Optimizer" and "Daily Agentic Workflow AIC Usage Audit") — **unless this workflow is running in `githubnext/agentic-ops`** (the source repository that ships them). In downstream repositories these workflows are not valid optimization targets; any optimization suggestions for them belong in `githubnext/agentic-ops`. In downstream repos they are pre-filtered from `all-runs.json` and `top-workflows.json`, but never select them even if a stale snapshot still lists them.
 - Choose the highest AI-credit-spend workflow that remains.
 - If no snapshot/history exists, derive candidates directly from `all-runs.json`.
 
