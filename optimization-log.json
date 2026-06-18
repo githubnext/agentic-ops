@@ -1,13 +1,5 @@
 [
   {
-    "date": "2026-05-18",
-    "workflow_name": "Copilot Setup Steps",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 7,
-    "recommendations_count": 3,
-    "estimated_savings_per_run": 0
-  },
-  {
     "date": "2026-05-19",
     "workflow_name": "Release",
     "total_tokens_analyzed": 3079,
@@ -278,5 +270,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 2,
     "estimated_aic_savings_per_run": 85.0
+  },
+  {
+    "date": "2026-06-18",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 979.4673600000001,
+    "total_tokens_analyzed": 2846994,
+    "runs_audited": 2,
+    "recommendations_count": 4,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 390.0
   }
 ]
