@@ -9,7 +9,7 @@ permissions:
 tracker-id: daily-ai-poem
 safe-outputs:
   create-discussion:
-    title-prefix: "🎭 "
+    title-prefix: "[poem]"
     expires: 8d
     max: 1
     category: general
