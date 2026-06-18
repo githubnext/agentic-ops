@@ -17,10 +17,10 @@
   },
   {
     "date": "2026-06-18",
-    "total_ai_credits": 933.82566,
-    "total_tokens": 2644059,
-    "total_runs": 5,
-    "total_action_minutes": 47,
+    "total_ai_credits": 2703.38637,
+    "total_tokens": 7737181,
+    "total_runs": 11,
+    "total_action_minutes": 108,
     "active_workflows": 5
   }
 ]
