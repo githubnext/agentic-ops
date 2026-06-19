@@ -1,0 +1,68 @@
+{
+  "date": "2026-06-19",
+  "period_days": 30,
+  "overall": {
+    "total_runs": 4,
+    "total_ai_credits": 1151.99115,
+    "total_tokens": 3401441,
+    "total_action_minutes": 34
+  },
+  "workflows": [
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 1034.31543,
+      "avg_ai_credits": 1034.31543,
+      "total_tokens": 3060256,
+      "avg_tokens": 3060256,
+      "total_turns": 58,
+      "avg_turns": 58.0,
+      "total_action_minutes": 15,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/27770903508"
+    },
+    {
+      "workflow_name": "Daily XKCD Comic",
+      "run_count": 1,
+      "total_ai_credits": 62.93847,
+      "avg_ai_credits": 62.93847,
+      "total_tokens": 182389,
+      "avg_tokens": 182389,
+      "total_turns": 7,
+      "avg_turns": 7.0,
+      "total_action_minutes": 6,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/27820939538"
+    },
+    {
+      "workflow_name": "Daily Agentic AI Research Digest",
+      "run_count": 1,
+      "total_ai_credits": 38.08404,
+      "avg_ai_credits": 38.08404,
+      "total_tokens": 109120,
+      "avg_tokens": 109120,
+      "total_turns": 4,
+      "avg_turns": 4.0,
+      "total_action_minutes": 6,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/27822024078"
+    },
+    {
+      "workflow_name": "Daily AI Poem",
+      "run_count": 1,
+      "total_ai_credits": 16.65321,
+      "avg_ai_credits": 16.65321,
+      "total_tokens": 49676,
+      "avg_tokens": 49676,
+      "total_turns": 2,
+      "avg_turns": 2.0,
+      "total_action_minutes": 7,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/27818573144"
+    }
+  ]
+}
