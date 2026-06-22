@@ -25,6 +25,10 @@ Changelog entries should describe what changed for users of these workflows, not
 
 ## [Unreleased]
 
+### Added
+
+- Optional multi-repository auditing. Add a `.github/agentic-ops.yml` config with a `repos:` list to audit and optimize AI-credit spend across several repositories from one central repository; the audit and optimizer collect each repository's logs via `gh aw logs --repo` and aggregate the report by repository and workflow. Multi-repo collection uses gh-aw's standard `GH_AW_GITHUB_TOKEN` secret (set it to a token with `actions: read` on the listed repositories); the workflows fall back to `GITHUB_TOKEN` (current repository only) when it is unset. An optional `source-repo` key controls which repository keeps the monitoring workflows as optimization targets. With no config file the workflows behave exactly as before, auditing only the repository they run in.
+
 ## [0.3.3] - 2026-06-14
 
 ### Fixed
