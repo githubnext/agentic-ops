@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-05-22",
-    "workflow_name": "Daily Agentic Workflow Token Usage Audit",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 10,
-    "recommendations_count": 5,
-    "subagent_candidates": 1,
-    "estimated_savings_per_run": 1650
-  },
-  {
     "date": "2026-05-25",
     "workflow_name": "Daily Agentic Workflow Token Usage Audit",
     "total_tokens_analyzed": 0,
@@ -287,5 +278,15 @@
     "recommendations_count": 4,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 55.0
+  },
+  {
+    "date": "2026-06-29",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 968.52,
+    "total_tokens_analyzed": 1215810,
+    "runs_audited": 7,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 65.0
   }
 ]
