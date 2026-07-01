@@ -1,0 +1,68 @@
+{
+  "date": "2026-07-01",
+  "period_days": 30,
+  "overall": {
+    "total_runs": 4,
+    "total_ai_credits": 480.61656,
+    "total_tokens": 1347584,
+    "total_action_minutes": 38
+  },
+  "workflows": [
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 238.99632,
+      "avg_ai_credits": 238.99632,
+      "total_tokens": 666257,
+      "avg_tokens": 666257,
+      "total_turns": 17,
+      "avg_turns": 17.0,
+      "total_action_minutes": 13,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/28455237751"
+    },
+    {
+      "workflow_name": "Daily XKCD Comic",
+      "run_count": 1,
+      "total_ai_credits": 137.5209,
+      "avg_ai_credits": 137.5209,
+      "total_tokens": 380975,
+      "avg_tokens": 380975,
+      "total_turns": 15,
+      "avg_turns": 15.0,
+      "total_action_minutes": 8,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/28510978928"
+    },
+    {
+      "workflow_name": "Daily Agentic AI Research Digest",
+      "run_count": 1,
+      "total_ai_credits": 85.30326,
+      "avg_ai_credits": 85.30326,
+      "total_tokens": 248291,
+      "avg_tokens": 248291,
+      "total_turns": 8,
+      "avg_turns": 8.0,
+      "total_action_minutes": 6,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/28512043721"
+    },
+    {
+      "workflow_name": "Daily AI Poem",
+      "run_count": 1,
+      "total_ai_credits": 18.79608,
+      "avg_ai_credits": 18.79608,
+      "total_tokens": 52061,
+      "avg_tokens": 52061,
+      "total_turns": 2,
+      "avg_turns": 2.0,
+      "total_action_minutes": 11,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/28507635736"
+    }
+  ]
+}
