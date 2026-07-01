@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-05-26",
-    "workflow_name": "Release",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 2,
-    "recommendations_count": 4,
-    "subagent_candidates": 0,
-    "estimated_savings_per_run": 400
-  },
-  {
     "date": "2026-05-27",
     "workflow_name": "Release",
     "total_tokens_analyzed": 3079,
@@ -289,5 +280,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 61.0
+  },
+  {
+    "date": "2026-07-01",
+    "workflow_name": "Daily AI Poem",
+    "total_ai_credits_analyzed": 125.62677,
+    "total_tokens_analyzed": 52061,
+    "runs_audited": 7,
+    "recommendations_count": 4,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 13.3
   }
 ]
