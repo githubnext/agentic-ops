@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-06-01",
-    "workflow_name": "Install Workflows",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 7,
-    "recommendations_count": 3,
-    "subagent_candidates": 0,
-    "estimated_savings_per_run": 35
-  },
-  {
     "date": "2026-06-02",
     "workflow_name": "Release",
     "total_tokens_analyzed": 0,
@@ -293,5 +284,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 45.0
+  },
+  {
+    "date": "2026-07-07",
+    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+    "total_ai_credits_analyzed": 1483.3818299999998,
+    "total_tokens_analyzed": 806295,
+    "runs_audited": 4,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 77.0
   }
 ]
