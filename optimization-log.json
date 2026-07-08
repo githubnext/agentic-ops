@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-06-02",
-    "workflow_name": "Release",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 3,
-    "recommendations_count": 3,
-    "subagent_candidates": 1,
-    "estimated_savings_per_run": 500
-  },
-  {
     "date": "2026-06-03",
     "workflow_name": "Copilot cloud agent",
     "total_tokens_analyzed": 0,
@@ -294,5 +285,15 @@
     "recommendations_count": 4,
     "subagent_candidates": 1,
     "estimated_aic_savings_per_run": 77.0
+  },
+  {
+    "date": "2026-07-08",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 526.59228,
+    "total_tokens_analyzed": 140303,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 60.0
   }
 ]
