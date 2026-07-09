@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-06-03",
-    "workflow_name": "Copilot cloud agent",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 20,
-    "recommendations_count": 3,
-    "subagent_candidates": 0,
-    "estimated_savings_per_run": 120
-  },
-  {
     "date": "2026-06-04",
     "workflow_name": "Copilot Setup Steps",
     "total_tokens_analyzed": 0,
@@ -295,5 +286,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 60.0
+  },
+  {
+    "date": "2026-07-09",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 1099.77801,
+    "total_tokens_analyzed": 3120058,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 23.0
   }
 ]
