@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-06-04",
-    "workflow_name": "Copilot Setup Steps",
-    "total_tokens_analyzed": 0,
-    "runs_audited": 7,
-    "recommendations_count": 3,
-    "subagent_candidates": 0,
-    "estimated_savings_per_run": 3
-  },
-  {
     "date": "2026-06-05",
     "workflow_name": "Release",
     "total_tokens_analyzed": 4287149,
@@ -296,5 +287,15 @@
     "recommendations_count": 4,
     "subagent_candidates": 1,
     "estimated_aic_savings_per_run": 23.0
+  },
+  {
+    "date": "2026-07-10",
+    "workflow_name": "Daily AI Poem",
+    "total_ai_credits_analyzed": 123.727,
+    "total_tokens_analyzed": 48974,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 2.75
   }
 ]
