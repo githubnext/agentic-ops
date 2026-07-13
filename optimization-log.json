@@ -1,14 +1,5 @@
 [
   {
-    "date": "2026-06-05",
-    "workflow_name": "Release",
-    "total_tokens_analyzed": 4287149,
-    "runs_audited": 3,
-    "recommendations_count": 4,
-    "subagent_candidates": 1,
-    "estimated_savings_per_run": 950
-  },
-  {
     "date": "2026-06-08",
     "workflow_name": "Agentic Workflow AI Credit Spend Optimizer",
     "total_ai_credits_analyzed": 0.0,
@@ -297,5 +288,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 2.75
+  },
+  {
+    "date": "2026-07-13",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 513.46311,
+    "total_tokens_analyzed": 180230,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 36.0
   }
 ]
