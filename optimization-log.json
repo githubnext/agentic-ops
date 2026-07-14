@@ -1,15 +1,5 @@
 [
   {
-    "date": "2026-06-08",
-    "workflow_name": "Agentic Workflow AI Credit Spend Optimizer",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 14,
-    "recommendations_count": 4,
-    "subagent_candidates": 1,
-    "estimated_ai_credit_savings_per_run": 0.5
-  },
-  {
     "date": "2026-06-09",
     "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
     "total_ai_credits_analyzed": 0.0,
@@ -298,5 +288,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 36.0
+  },
+  {
+    "date": "2026-07-14",
+    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+    "total_ai_credits_analyzed": 1222.69968,
+    "total_tokens_analyzed": 3130879,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 48.0
   }
 ]
