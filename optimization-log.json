@@ -1,115 +1,5 @@
 [
   {
-    "date": "2026-06-10",
-    "workflow_name": "Release",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 4287149,
-    "runs_audited": 4,
-    "recommendations_count": 4,
-    "subagent_candidates": 1,
-    "estimated_aic_savings_per_run": 0.6
-  },
-  {
-    "date": "2026-06-11",
-    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 5,
-    "recommendations_count": 4,
-    "subagent_candidates": 1,
-    "estimated_aic_savings_per_run": 0.45
-  },
-  {
-    "date": "2026-06-12",
-    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 10,
-    "recommendations_count": 5,
-    "subagent_candidates": 1,
-    "estimated_aic_savings_per_run": 0.18
-  },
-  {
-    "date": "2026-06-14",
-    "workflow_name": "Agentic Maintenance",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 14,
-    "recommendations_count": 2,
-    "subagent_candidates": 0,
-    "estimated_aic_savings_per_run": 0.0
-  },
-  {
-    "date": "2026-06-15",
-    "workflow_name": "Copilot (PR Code Reviewer)",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 4,
-    "recommendations_count": 3,
-    "subagent_candidates": 0,
-    "estimated_aic_savings_per_run": 0.3
-  },
-  {
-    "date": "2026-06-16",
-    "workflow_name": "Install Workflows",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 20,
-    "recommendations_count": 3,
-    "subagent_candidates": 0,
-    "estimated_aic_savings_per_run": 0.0
-  },
-  {
-    "date": "2026-06-17",
-    "workflow_name": "Copilot cloud agent",
-    "total_ai_credits_analyzed": 0.0,
-    "total_tokens_analyzed": 0,
-    "runs_audited": 8,
-    "recommendations_count": 3,
-    "subagent_candidates": 0,
-    "estimated_aic_savings_per_run": 0.0
-  },
-  {
-    "date": "2026-06-18",
-    "workflow_name": "Daily Agentic AI Research Digest",
-    "total_ai_credits_analyzed": 148.61397,
-    "total_tokens_analyzed": 420772,
-    "runs_audited": 1,
-    "recommendations_count": 3,
-    "subagent_candidates": 1,
-    "estimated_aic_savings_per_run": 55.0
-  },
-  {
-    "date": "2026-06-18",
-    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
-    "total_ai_credits_analyzed": 3098.35698,
-    "total_tokens_analyzed": 4603288,
-    "runs_audited": 7,
-    "recommendations_count": 3,
-    "subagent_candidates": 2,
-    "estimated_aic_savings_per_run": 85.0
-  },
-  {
-    "date": "2026-06-18",
-    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
-    "total_ai_credits_analyzed": 3098.35698,
-    "total_tokens_analyzed": 4603288,
-    "runs_audited": 7,
-    "recommendations_count": 3,
-    "subagent_candidates": 2,
-    "estimated_aic_savings_per_run": 85.0
-  },
-  {
-    "date": "2026-06-18",
-    "workflow_name": "Daily XKCD Comic",
-    "total_ai_credits_analyzed": 979.4673600000001,
-    "total_tokens_analyzed": 2846994,
-    "runs_audited": 2,
-    "recommendations_count": 4,
-    "subagent_candidates": 0,
-    "estimated_aic_savings_per_run": 390.0
-  },
-  {
     "date": "2026-06-19",
     "workflow_name": "Daily AI Poem",
     "total_ai_credits_analyzed": 51.729,
@@ -298,5 +188,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 33.0
+  },
+  {
+    "date": "2026-07-16",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 978.10224,
+    "total_tokens_analyzed": 772127,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 43.0
   }
 ]
