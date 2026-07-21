@@ -218,5 +218,15 @@
     "recommendations_count": 4,
     "subagent_candidates": 0,
     "estimated_aic_savings_per_run": 32.0
+  },
+  {
+    "date": "2026-07-21",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 1466.2,
+    "total_tokens_analyzed": 4101560,
+    "runs_audited": 15,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 15.0
   }
 ]
