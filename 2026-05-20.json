@@ -1,11 +1,1 @@
-{
-  "date": "2026-05-20",
-  "period_days": 1,
-  "overall": {
-    "total_runs": 0,
-    "total_tokens": 0,
-    "total_cost": 0,
-    "total_action_minutes": 0
-  },
-  "workflows": []
-}
+{"date": "2026-05-20", "period_days": 1, "overall": {"total_runs": 0, "total_tokens": 0, "total_cost": 0, "total_action_minutes": 0}, "workflow_count": 0}
