@@ -258,5 +258,15 @@
     "recommendations_count": 4,
     "subagent_candidates": 1,
     "estimated_aic_savings_per_run": 45.0
+  },
+  {
+    "date": "2026-07-27",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 1117.7844599999999,
+    "total_tokens_analyzed": 606644,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 72.0
   }
 ]
