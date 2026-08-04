@@ -1,0 +1,82 @@
+{
+  "date": "2026-08-04",
+  "period_days": 30,
+  "overall": {
+    "total_runs": 5,
+    "total_ai_credits": 549.8533500000001,
+    "total_tokens": 1605513,
+    "total_action_minutes": 35
+  },
+  "workflows": [
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 235.78163999999998,
+      "avg_ai_credits": 235.78163999999998,
+      "total_tokens": 677266,
+      "avg_tokens": 677266,
+      "total_turns": 17,
+      "avg_turns": 17.0,
+      "total_action_minutes": 10,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/30827177027"
+    },
+    {
+      "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+      "run_count": 1,
+      "total_ai_credits": 190.92864,
+      "avg_ai_credits": 190.92864,
+      "total_tokens": 564138,
+      "avg_tokens": 564138,
+      "total_turns": 15,
+      "avg_turns": 15.0,
+      "total_action_minutes": 9,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/30817584209"
+    },
+    {
+      "workflow_name": "Daily Agentic AI Research Digest",
+      "run_count": 1,
+      "total_ai_credits": 55.41897,
+      "avg_ai_credits": 55.41897,
+      "total_tokens": 162164,
+      "avg_tokens": 162164,
+      "total_turns": 6,
+      "avg_turns": 6.0,
+      "total_action_minutes": 5,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/30900593071"
+    },
+    {
+      "workflow_name": "Daily XKCD Comic",
+      "run_count": 1,
+      "total_ai_credits": 51.721320000000006,
+      "avg_ai_credits": 51.721320000000006,
+      "total_tokens": 152967,
+      "avg_tokens": 152967,
+      "total_turns": 6,
+      "avg_turns": 6.0,
+      "total_action_minutes": 6,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/30898906228"
+    },
+    {
+      "workflow_name": "Daily AI Poem",
+      "run_count": 1,
+      "total_ai_credits": 16.002779999999998,
+      "avg_ai_credits": 16.002779999999998,
+      "total_tokens": 48978,
+      "avg_tokens": 48978,
+      "total_turns": 2,
+      "avg_turns": 2.0,
+      "total_action_minutes": 5,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/30895511720"
+    }
+  ]
+}
