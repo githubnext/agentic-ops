@@ -1,0 +1,82 @@
+{
+  "date": "2026-08-07",
+  "period_days": 30,
+  "overall": {
+    "total_runs": 5,
+    "total_ai_credits": 321.80583,
+    "total_tokens": 947525,
+    "total_action_minutes": 30.0
+  },
+  "workflows": [
+    {
+      "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+      "run_count": 1,
+      "total_ai_credits": 193.30083,
+      "avg_ai_credits": 193.30083,
+      "total_tokens": 568926,
+      "avg_tokens": 568926,
+      "total_turns": 15,
+      "avg_turns": 15.0,
+      "total_action_minutes": 7.0,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31103954425"
+    },
+    {
+      "workflow_name": "Daily Agentic AI Research Digest",
+      "run_count": 1,
+      "total_ai_credits": 70.09956,
+      "avg_ai_credits": 70.09956,
+      "total_tokens": 202904,
+      "avg_tokens": 202904,
+      "total_turns": 7,
+      "avg_turns": 7.0,
+      "total_action_minutes": 6.0,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31167877663"
+    },
+    {
+      "workflow_name": "Daily XKCD Comic",
+      "run_count": 1,
+      "total_ai_credits": 42.4764,
+      "avg_ai_credits": 42.4764,
+      "total_tokens": 126799,
+      "avg_tokens": 126799,
+      "total_turns": 5,
+      "avg_turns": 5.0,
+      "total_action_minutes": 6.0,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31166052448"
+    },
+    {
+      "workflow_name": "Daily AI Poem",
+      "run_count": 1,
+      "total_ai_credits": 15.92904,
+      "avg_ai_credits": 15.92904,
+      "total_tokens": 48896,
+      "avg_tokens": 48896,
+      "total_turns": 2,
+      "avg_turns": 2.0,
+      "total_action_minutes": 5.0,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31162415577"
+    },
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 0.0,
+      "avg_ai_credits": 0.0,
+      "total_tokens": 0,
+      "avg_tokens": 0,
+      "total_turns": 0,
+      "avg_turns": 0.0,
+      "total_action_minutes": 6.0,
+      "error_count": 1,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31114304905"
+    }
+  ]
+}
