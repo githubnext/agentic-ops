@@ -1,15 +1,5 @@
 [
   {
-    "date": "2026-06-29",
-    "workflow_name": "Daily Agentic AI Research Digest",
-    "total_ai_credits_analyzed": 968.52,
-    "total_tokens_analyzed": 1215810,
-    "runs_audited": 7,
-    "recommendations_count": 4,
-    "subagent_candidates": 1,
-    "estimated_aic_savings_per_run": 65.0
-  },
-  {
     "date": "2026-06-30",
     "workflow_name": "Daily XKCD Comic",
     "total_ai_credits_analyzed": 748.12026,
@@ -298,5 +288,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 1,
     "estimated_aic_savings_per_run": 50.0
+  },
+  {
+    "date": "2026-08-11",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 479.15724,
+    "total_tokens_analyzed": 188358,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 18.0
   }
 ]
