@@ -1,0 +1,68 @@
+{
+  "date": "2026-08-13",
+  "period_days": 1,
+  "overall": {
+    "total_runs": 4,
+    "total_ai_credits": 360.69278999999995,
+    "total_tokens": 1043791,
+    "total_action_minutes": 23
+  },
+  "workflows": [
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 222.57887999999997,
+      "avg_ai_credits": 222.57887999999997,
+      "total_tokens": 645165,
+      "avg_tokens": 645165,
+      "total_turns": 18,
+      "avg_turns": 18.0,
+      "total_action_minutes": 8,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31608340834"
+    },
+    {
+      "workflow_name": "Daily XKCD Comic",
+      "run_count": 1,
+      "total_ai_credits": 65.92692,
+      "avg_ai_credits": 65.92692,
+      "total_tokens": 186290,
+      "avg_tokens": 186290,
+      "total_turns": 7,
+      "avg_turns": 7.0,
+      "total_action_minutes": 5,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31687135196"
+    },
+    {
+      "workflow_name": "Daily Agentic AI Research Digest",
+      "run_count": 1,
+      "total_ai_credits": 56.180189999999996,
+      "avg_ai_credits": 56.180189999999996,
+      "total_tokens": 163348,
+      "avg_tokens": 163348,
+      "total_turns": 6,
+      "avg_turns": 6.0,
+      "total_action_minutes": 5,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31688740359"
+    },
+    {
+      "workflow_name": "Daily AI Poem",
+      "run_count": 1,
+      "total_ai_credits": 16.0068,
+      "avg_ai_credits": 16.0068,
+      "total_tokens": 48988,
+      "avg_tokens": 48988,
+      "total_turns": 2,
+      "avg_turns": 2.0,
+      "total_action_minutes": 5,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/31683514876"
+    }
+  ]
+}
