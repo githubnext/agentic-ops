@@ -1,1 +1,212 @@
-[{"date":"2026-07-16","workflow_name":"Daily Agentic Workflow AIC Usage Audit","total_ai_credits_analyzed":978.10224,"total_tokens_analyzed":772127,"runs_audited":5,"recommendations_count":4,"subagent_candidates":0,"estimated_aic_savings_per_run":43.0},{"date":"2026-07-17","workflow_name":"Daily AI Poem","total_ai_credits_analyzed":111.65838,"total_tokens_analyzed":49017,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":1.0},{"date":"2026-07-20","workflow_name":"Daily Agentic AI Research Digest","total_ai_credits_analyzed":482.36019,"total_tokens_analyzed":257505,"runs_audited":7,"recommendations_count":4,"subagent_candidates":0,"estimated_aic_savings_per_run":32.0},{"date":"2026-07-21","workflow_name":"Daily XKCD Comic","total_ai_credits_analyzed":1466.2,"total_tokens_analyzed":4101560,"runs_audited":15,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":15.0},{"date":"2026-07-22","workflow_name":"Daily Agentic Workflow AIC Usage Audit","total_ai_credits_analyzed":1212.56016,"total_tokens_analyzed":775083,"runs_audited":5,"recommendations_count":4,"subagent_candidates":1,"estimated_aic_savings_per_run":85.0},{"date":"2026-07-23","workflow_name":"Daily Agentic AI Research Digest","total_ai_credits_analyzed":417.92829,"total_tokens_analyzed":191267,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":24.0},{"date":"2026-07-24","workflow_name":"Agentic Workflow AIC Usage Optimizer","total_ai_credits_analyzed":921.23964,"total_tokens_analyzed":0,"runs_audited":4,"recommendations_count":4,"subagent_candidates":1,"estimated_aic_savings_per_run":45.0},{"date":"2026-07-27","workflow_name":"Daily Agentic Workflow AIC Usage Audit","total_ai_credits_analyzed":1117.7844599999999,"total_tokens_analyzed":606644,"runs_audited":5,"recommendations_count":4,"subagent_candidates":1,"estimated_aic_savings_per_run":72.0},{"date":"2026-07-28","workflow_name":"Daily Agentic AI Research Digest","total_ai_credits_analyzed":871.73,"total_tokens_analyzed":2550226,"runs_audited":14,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":15.0},{"date":"2026-07-29","workflow_name":"Daily Agentic AI Research Digest","total_ai_credits_analyzed":531.10065,"total_tokens_analyzed":289531,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":28.0},{"date":"2026-07-30","workflow_name":"Daily XKCD Comic","total_ai_credits_analyzed":279.50991,"total_tokens_analyzed":179627,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":28.0},{"date":"2026-07-31","workflow_name":"Daily AI Poem","total_ai_credits_analyzed":79.59939,"total_tokens_analyzed":0,"runs_audited":6,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":2.0},{"date":"2026-08-03","workflow_name":"Agentic Workflow AIC Usage Optimizer","total_ai_credits_analyzed":1251.24834,"total_tokens_analyzed":0,"runs_audited":4,"recommendations_count":4,"subagent_candidates":1,"estimated_aic_savings_per_run":45.0},{"date":"2026-08-04","workflow_name":"Daily Agentic Workflow AIC Usage Audit","total_ai_credits_analyzed":924.16116,"total_tokens_analyzed":574378,"runs_audited":5,"recommendations_count":4,"subagent_candidates":1,"estimated_aic_savings_per_run":52.5},{"date":"2026-08-05","workflow_name":"Daily Agentic AI Research Digest","total_ai_credits_analyzed":615.07095,"total_tokens_analyzed":161319,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":36.0},{"date":"2026-08-07","workflow_name":"Daily XKCD Comic","total_ai_credits_analyzed":350.96439,"total_tokens_analyzed":126799,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":6.0},{"date":"2026-08-10","workflow_name":"Daily Agentic Workflow AIC Usage Audit","total_ai_credits_analyzed":1017.267,"total_tokens_analyzed":677174,"runs_audited":5,"recommendations_count":3,"subagent_candidates":1,"estimated_aic_savings_per_run":50.0},{"date":"2026-08-11","workflow_name":"Daily Agentic AI Research Digest","total_ai_credits_analyzed":479.15724,"total_tokens_analyzed":188358,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":18.0},{"date":"2026-08-12","workflow_name":"Agentic Workflow AIC Usage Optimizer","total_ai_credits_analyzed":1053.24306,"total_tokens_analyzed":0,"runs_audited":5,"recommendations_count":5,"subagent_candidates":0,"estimated_aic_savings_per_run":33.0},{"date":"2026-08-13","workflow_name":"Daily XKCD Comic","total_ai_credits_analyzed":344.55627,"total_tokens_analyzed":186290,"runs_audited":7,"recommendations_count":3,"subagent_candidates":0,"estimated_aic_savings_per_run":6.0}]
+[
+  {
+    "date": "2026-07-16",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 978.10224,
+    "total_tokens_analyzed": 772127,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 43.0
+  },
+  {
+    "date": "2026-07-17",
+    "workflow_name": "Daily AI Poem",
+    "total_ai_credits_analyzed": 111.65838,
+    "total_tokens_analyzed": 49017,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 1.0
+  },
+  {
+    "date": "2026-07-20",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 482.36019,
+    "total_tokens_analyzed": 257505,
+    "runs_audited": 7,
+    "recommendations_count": 4,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 32.0
+  },
+  {
+    "date": "2026-07-21",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 1466.2,
+    "total_tokens_analyzed": 4101560,
+    "runs_audited": 15,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 15.0
+  },
+  {
+    "date": "2026-07-22",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 1212.56016,
+    "total_tokens_analyzed": 775083,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 85.0
+  },
+  {
+    "date": "2026-07-23",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 417.92829,
+    "total_tokens_analyzed": 191267,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 24.0
+  },
+  {
+    "date": "2026-07-24",
+    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+    "total_ai_credits_analyzed": 921.23964,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 4,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 45.0
+  },
+  {
+    "date": "2026-07-27",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 1117.7844599999999,
+    "total_tokens_analyzed": 606644,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 72.0
+  },
+  {
+    "date": "2026-07-28",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 871.73,
+    "total_tokens_analyzed": 2550226,
+    "runs_audited": 14,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 15.0
+  },
+  {
+    "date": "2026-07-29",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 531.10065,
+    "total_tokens_analyzed": 289531,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 28.0
+  },
+  {
+    "date": "2026-07-30",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 279.50991,
+    "total_tokens_analyzed": 179627,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 28.0
+  },
+  {
+    "date": "2026-07-31",
+    "workflow_name": "Daily AI Poem",
+    "total_ai_credits_analyzed": 79.59939,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 6,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 2.0
+  },
+  {
+    "date": "2026-08-03",
+    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+    "total_ai_credits_analyzed": 1251.24834,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 4,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 45.0
+  },
+  {
+    "date": "2026-08-04",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 924.16116,
+    "total_tokens_analyzed": 574378,
+    "runs_audited": 5,
+    "recommendations_count": 4,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 52.5
+  },
+  {
+    "date": "2026-08-05",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 615.07095,
+    "total_tokens_analyzed": 161319,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 36.0
+  },
+  {
+    "date": "2026-08-07",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 350.96439,
+    "total_tokens_analyzed": 126799,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 6.0
+  },
+  {
+    "date": "2026-08-10",
+    "workflow_name": "Daily Agentic Workflow AIC Usage Audit",
+    "total_ai_credits_analyzed": 1017.267,
+    "total_tokens_analyzed": 677174,
+    "runs_audited": 5,
+    "recommendations_count": 3,
+    "subagent_candidates": 1,
+    "estimated_aic_savings_per_run": 50.0
+  },
+  {
+    "date": "2026-08-11",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 479.15724,
+    "total_tokens_analyzed": 188358,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 18.0
+  },
+  {
+    "date": "2026-08-12",
+    "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+    "total_ai_credits_analyzed": 1053.24306,
+    "total_tokens_analyzed": 0,
+    "runs_audited": 5,
+    "recommendations_count": 5,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 33.0
+  },
+  {
+    "date": "2026-08-13",
+    "workflow_name": "Daily XKCD Comic",
+    "total_ai_credits_analyzed": 344.55627,
+    "total_tokens_analyzed": 186290,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 6.0
+  },
+  {
+    "date": "2026-08-14",
+    "workflow_name": "Daily AI Poem",
+    "total_ai_credits_analyzed": 111.64983,
+    "total_tokens_analyzed": 342930,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 9.5
+  }
+]
