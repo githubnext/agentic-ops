@@ -1,0 +1,68 @@
+{
+  "date": "2026-08-21",
+  "period_days": 1,
+  "overall": {
+    "total_runs": 4,
+    "total_ai_credits": 314.93478,
+    "total_tokens": 904127,
+    "total_action_minutes": 25
+  },
+  "workflows": [
+    {
+      "workflow_name": "Agentic Workflow AIC Usage Optimizer",
+      "run_count": 1,
+      "total_ai_credits": 177.73287,
+      "avg_ai_credits": 177.73287,
+      "total_tokens": 507212,
+      "avg_tokens": 507212,
+      "total_turns": 15,
+      "avg_turns": 15.0,
+      "total_action_minutes": 8,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/32381056131"
+    },
+    {
+      "workflow_name": "Daily XKCD Comic",
+      "run_count": 1,
+      "total_ai_credits": 74.2836,
+      "avg_ai_credits": 74.2836,
+      "total_tokens": 212574,
+      "avg_tokens": 212574,
+      "total_turns": 8,
+      "avg_turns": 8.0,
+      "total_action_minutes": 6,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/32467304018"
+    },
+    {
+      "workflow_name": "Daily Agentic AI Research Digest",
+      "run_count": 1,
+      "total_ai_credits": 46.98408,
+      "avg_ai_credits": 46.98408,
+      "total_tokens": 135461,
+      "avg_tokens": 135461,
+      "total_turns": 5,
+      "avg_turns": 5.0,
+      "total_action_minutes": 6,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/32469660871"
+    },
+    {
+      "workflow_name": "Daily AI Poem",
+      "run_count": 1,
+      "total_ai_credits": 15.93423,
+      "avg_ai_credits": 15.93423,
+      "total_tokens": 48880,
+      "avg_tokens": 48880,
+      "total_turns": 2,
+      "avg_turns": 2.0,
+      "total_action_minutes": 5,
+      "error_count": 0,
+      "warning_count": 0,
+      "latest_run_url": "https://github.com/githubnext/agentic-ops/actions/runs/32463291979"
+    }
+  ]
+}
