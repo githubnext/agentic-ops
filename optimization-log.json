@@ -78,5 +78,15 @@
     "recommendations_count": 3,
     "subagent_candidates": 1,
     "estimated_aic_savings_per_run": 75.0
+  },
+  {
+    "date": "2026-08-31",
+    "workflow_name": "Daily Agentic AI Research Digest",
+    "total_ai_credits_analyzed": 724.83,
+    "total_tokens_analyzed": 433553,
+    "runs_audited": 7,
+    "recommendations_count": 3,
+    "subagent_candidates": 0,
+    "estimated_aic_savings_per_run": 28.0
   }
 ]
