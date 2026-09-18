@@ -46,50 +46,97 @@ steps:
       python3 -m pip install --quiet --target /tmp/gh-aw/token-audit/site-packages pandas matplotlib seaborn
   - name: Download agentic workflow logs
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
     run: |
       set -euo pipefail
       mkdir -p /tmp/gh-aw/token-audit
       PARTS_DIR=/tmp/gh-aw/token-audit/log-parts
       mkdir -p "$PARTS_DIR"
 
-      # Fetch logs per workflow to avoid repo-wide pagination truncation in
-      # high-CI-volume repositories.
+      # Determine which repositories to audit. By default this is just the
+      # current repository (single-repo behavior, unchanged). When
+      # `.github/agentic-ops.yml` lists `repos:`, audit each of them and
+      # aggregate centrally. See the README "Auditing multiple repositories".
+      CONFIG_FILE=".github/agentic-ops.yml"
+      REPOS=()
+      if [ -f "$CONFIG_FILE" ]; then
+        while IFS= read -r repo_line; do
+          if [ -n "$repo_line" ]; then REPOS+=("$repo_line"); fi
+        done < <(awk '/^repos:[[:space:]]*$/{f=1;next} /^[^[:space:]#]/{f=0} f' "$CONFIG_FILE" \
+          | sed 's/#.*$//' \
+          | grep -oE '[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+' || true)
+      fi
+      if [ "${#REPOS[@]}" -eq 0 ]; then
+        REPOS=("${GITHUB_REPOSITORY:-}")
+      fi
+      echo "🗂️ Auditing repositories:"
+      printf '  - %s\n' "${REPOS[@]}"
+
+      # Fetch one workflow's logs, stamp each run with its source repository, and
+      # keep the part only if it has runs. $1=repo, $2=workflow identifier; any
+      # further args are passed through to `gh aw logs` (e.g. --repo for other repos).
       FOUND_WORKFLOW=0
-      for workflow in .github/workflows/*.md; do
-        [ -f "$workflow" ] || continue
-
-        WORKFLOW_ID=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$workflow" | head -n 1 | tr -d '\r' | sed 's/[[:space:]]*$//')
-        [ -n "$WORKFLOW_ID" ] || continue
-
-        FOUND_WORKFLOW=1
-        SAFE_WORKFLOW_ID=$(printf '%s' "$WORKFLOW_ID" | tr -cs 'A-Za-z0-9._-' '_')
-        PART_FILE="$PARTS_DIR/$SAFE_WORKFLOW_ID.json"
-        PART_EXIT=0
-        gh aw logs "$WORKFLOW_ID" \
+      collect_one() {
+        local repo="$1" wfid="$2"; shift 2
+        local safe_repo safe_id part exit_code count
+        safe_repo=$(printf '%s' "$repo" | tr -cs 'A-Za-z0-9._-' '_')
+        safe_id=$(printf '%s' "$wfid" | tr -cs 'A-Za-z0-9._-' '_')
+        part="$PARTS_DIR/${safe_repo}__${safe_id}.json"
+        exit_code=0
+        gh aw logs "$wfid" "$@" \
           --start-date -1d \
           --json \
           -c 100 \
-          > "$PART_FILE" || PART_EXIT=$?
-
-        if ! jq -e . "$PART_FILE" >/dev/null 2>&1; then
-          echo "⚠️ $WORKFLOW_ID: invalid log JSON (exit code $PART_EXIT)"
-          rm -f "$PART_FILE"
-          continue
+          > "$part" || exit_code=$?
+        if ! jq -e . "$part" >/dev/null 2>&1; then
+          echo "⚠️ $repo :: $wfid: invalid log JSON (exit code $exit_code)"
+          rm -f "$part"
+          return 0
         fi
-
-        COUNT=$(jq '(.runs // []) | length' "$PART_FILE")
-        if [ "$COUNT" -gt 0 ]; then
-          echo "✅ $WORKFLOW_ID: downloaded $COUNT runs (exit code $PART_EXIT)"
+        # Stamp each run with its source repository for cross-repo aggregation.
+        if jq --arg repo "$repo" '.runs = ((.runs // []) | map(.repository //= $repo))' \
+          "$part" > "$part.tagged"; then
+          mv "$part.tagged" "$part"
         else
-          echo "⚠️ $WORKFLOW_ID: no log data (exit code $PART_EXIT)"
-          rm -f "$PART_FILE"
+          rm -f "$part.tagged"
+        fi
+        count=$(jq '(.runs // []) | length' "$part")
+        if [ "$count" -gt 0 ]; then
+          echo "✅ $repo :: $wfid: downloaded $count run(s) (exit code $exit_code)"
+        else
+          echo "⚠️ $repo :: $wfid: no log data (exit code $exit_code)"
+          rm -f "$part"
+        fi
+      }
+
+      # Fetch logs per workflow (avoids repo-wide pagination truncation in busy
+      # repos). For the current repo, resolve agentic workflows from the local
+      # checkout by tracker-id — unchanged single-repo behavior. For any other
+      # repo, resolve them by display name via the GitHub Actions API and pass
+      # --repo, because `gh aw logs` resolves a remote workflow only by its name.
+      for repo in "${REPOS[@]}"; do
+        [ -n "$repo" ] || continue
+        if [ "$repo" = "${GITHUB_REPOSITORY:-}" ] && [ -d .github/workflows ]; then
+          for wf in .github/workflows/*.md; do
+            [ -f "$wf" ] || continue
+            wfid=$(sed -n 's/^tracker-id:[[:space:]]*//p' "$wf" | head -n 1 | tr -d '\r' | sed 's/[[:space:]]*$//')
+            [ -n "$wfid" ] || continue
+            FOUND_WORKFLOW=1
+            collect_one "$repo" "$wfid"
+          done
+        else
+          while IFS= read -r wfname; do
+            [ -n "$wfname" ] || continue
+            FOUND_WORKFLOW=1
+            collect_one "$repo" "$wfname" --repo "$repo"
+          done < <(gh api "repos/$repo/actions/workflows?per_page=100" \
+            --jq '.workflows[] | select(.path | endswith(".lock.yml")) | .name' 2>/dev/null || true)
         fi
       done
 
       if [ "$FOUND_WORKFLOW" -eq 1 ] && ls "$PARTS_DIR"/*.json >/dev/null 2>&1; then
         jq -s '
-          (map(.runs // []) | add // [] | unique_by(.run_id)) as $runs |
+          (map(.runs // []) | add // [] | unique_by([.repository, .run_id])) as $runs |
           {
             summary: {
               total_runs: ($runs | length),
@@ -142,6 +189,7 @@ Each element of `.runs` is a `RunData` object with (among others):
 |---|---|---|
 | `workflow_name` | string | Human-readable name |
 | `workflow_path` | string | `.github/workflows/....lock.yml` |
+| `repository` | string | `owner/repo` the run belongs to (used to group spend by repository when auditing multiple repos) |
 | `aic` | float | AI Credits (AIC) consumed (primary billing metric; 1 AIC = $0.01 USD) |
 | `token_usage` | int | Total tokens (`omitempty` — treat missing/null as 0) |
 | `effective_tokens` | int | Legacy normalized token metric (deprecated; use `aic` for billing) |
@@ -167,8 +215,8 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 
 1. Load `/tmp/gh-aw/token-audit/workflow-logs.json` and extract `.runs`.
 2. Filter to `status == "completed"` runs only.
-3. Group by `workflow_name` and compute per-workflow aggregates:
-   - `run_count`, `total_ai_credits`, `avg_ai_credits`, `total_tokens`, `avg_tokens`, `total_turns`, `avg_turns`, `total_action_minutes`, `error_count`, `warning_count`
+3. Group by `repository` + `workflow_name` (so identically named workflows in different repositories are never conflated) and compute per-workflow aggregates:
+   - `repo`, `run_count`, `total_ai_credits`, `avg_ai_credits`, `total_tokens`, `avg_tokens`, `total_turns`, `avg_turns`, `total_action_minutes`, `error_count`, `warning_count`
 4. Compute an overall summary: total runs, total AI credits, total tokens, total action minutes.
 5. Sort workflows descending by `total_ai_credits`.
 6. Save the result to `/tmp/gh-aw/token-audit/audit_snapshot.json` with this shape:
@@ -185,6 +233,7 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
   },
   "workflows": [
     {
+      "repo": "owner/repo",
       "workflow_name": "...",
       "run_count": N,
       "total_ai_credits": F,
@@ -203,6 +252,8 @@ Write a Python script to `/tmp/gh-aw/token-audit/process_audit.py` and run it. T
 ```
 
 Handle null/missing `aic` and `token_usage` by treating them as 0.
+
+When runs span more than one repository, also build a top-level `repos` array — one entry per repository with `repo`, `total_runs`, `total_ai_credits`, `total_tokens`, `total_action_minutes`, and `active_workflows` — so the issue can present a per-repository rollup. When all runs come from a single repository, omit `repos`.
 
 ## Phase 2 — Persist Snapshot to Repo-Memory
 
@@ -249,7 +300,7 @@ Create an issue with these sections:
 - Use `###` for main sections and `####` for subsections inside the issue body.
 - Keep the executive summary and final observations visible without collapsible sections.
 - Put verbose tables or supporting detail inside `<details><summary>...</summary>` blocks.
-- If you cite specific workflow runs, format them as links like `[§12345](https://github.com/${{ github.repository }}/actions/runs/12345)` and include up to 3 under `**References:**`.
+- If you cite specific workflow runs, link them using each run's own `url` field (e.g. `[§12345](<run url>)`) so links resolve correctly even when runs come from multiple repositories. Include up to 3 under `**References:**`.
 
 ### Report Template
 
@@ -257,6 +308,7 @@ Create an issue with these sections:
 ### 📊 Executive Summary
 
 - **Period**: last 24 hours (YYYY-MM-DD to YYYY-MM-DD)
+- **Repositories audited**: N (include this line only when auditing more than one)
 - **Total runs**: N
 - **Total AI credits**: N.NN AIC
 - **Total tokens**: N (formatted with commas)
@@ -266,6 +318,16 @@ Create an issue with these sections:
 ### 🏆 Top 5 Workflows by AI Credit Spend
 
 | Workflow | Runs | Total AI Credits | Avg AI Credits |
+|---|---|---|---|
+| ... | ... | ... | ... |
+
+When auditing more than one repository, add a leading **Repository** column to this table (and to the full per-workflow breakdown), and include the per-repository section below.
+
+### 🗂️ By Repository
+
+_Include this section only when auditing more than one repository, built from the snapshot `repos` array._
+
+| Repository | Runs | Total AI Credits | Active Workflows |
 |---|---|---|---|
 | ... | ... | ... | ... |
 

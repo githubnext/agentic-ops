@@ -1,0 +1,27 @@
+# Configuration for the agentic-ops bundle (audit + optimizer).
+#
+# By default the workflows audit ONLY the repository they run in. To audit
+# AI-credit (AIC) spend across MULTIPLE repositories from one central repo, list
+# them under `repos:` below (owner/repo, one per line, uncommented). The audit
+# and optimizer then collect each repository's agentic-workflow logs via
+# `gh aw logs --repo` and aggregate the results per repository and workflow.
+#
+# Leave this file out, or leave `repos:` empty, to keep the default single-repo
+# behavior — the multi-repo feature is fully opt-in and backward compatible.
+#
+# Multi-repo collection reads each listed repository's GitHub Actions API, so it
+# needs a token with `actions: read` on every listed repo. These workflows use
+# gh-aw's standard GH_AW_GITHUB_TOKEN "magic" secret (set it to a classic PAT
+# with `repo`, a fine-grained PAT with Actions read, or a GitHub App token); see
+# https://github.github.com/gh-aw/reference/auth/. They fall back to the default
+# GITHUB_TOKEN (current repo only) when it is unset.
+#
+# See the README section "Auditing multiple repositories".
+repos:
+  # - owner/repo
+  # - owner/another-repo
+
+# Optional. The repository that develops the AIC monitoring family (this audit +
+# optimizer). Its own monitoring workflows remain eligible for optimization
+# there; in every other repo they are excluded. Defaults to githubnext/agentic-ops.
+# source-repo: githubnext/agentic-ops

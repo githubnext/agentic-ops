@@ -53,6 +53,31 @@ Included workflows:
 | [`Daily Agentic Workflow AIC Usage Audit`](https://github.com/githubnext/agentic-ops/blob/main/.github/workflows/agentic-token-audit.md?plain=1) | Collects recent agentic workflow usage and creates a daily AIC spend snapshot. |
 | [`Agentic Workflow AIC Usage Optimizer`](https://github.com/githubnext/agentic-ops/blob/main/.github/workflows/agentic-token-optimizer.md?plain=1) | Analyzes high-AIC workflows and proposes conservative efficiency changes, including inline sub-agent opportunities when they are a strong fit. |
 
+## Auditing multiple repositories
+
+By default each workflow audits only the repository it runs in. To monitor AI-credit spend across **many repositories from one central repository**, add a `.github/agentic-ops.yml` config to the repo where the workflows run:
+
+```yaml
+repos:
+  - your-org/repo-a
+  - your-org/repo-b
+  - your-org/repo-c
+```
+
+With `repos` set, the audit and optimizer collect each listed repository's agentic-workflow logs via `gh aw logs --repo` and aggregate them into a single report broken down by repository and workflow. Leave the file out (or leave `repos` empty) to keep the default single-repo behavior — the feature is fully opt-in and backward compatible.
+
+Multi-repo collection reads each listed repository's GitHub Actions API, so it needs a token with **`actions: read` on every listed repo** (the default `GITHUB_TOKEN` only covers the current repository). These workflows use gh-aw's standard [`GH_AW_GITHUB_TOKEN`](https://github.github.com/gh-aw/reference/auth/) "magic" secret — set it to a PAT (classic `repo` scope, or a fine-grained PAT with Actions read) or a GitHub App token with access to the listed repos:
+
+```bash
+gh aw secrets set GH_AW_GITHUB_TOKEN --value "<token>"
+```
+
+The workflows fall back to `GITHUB_TOKEN` (current repo only) when `GH_AW_GITHUB_TOKEN` is unset.
+
+Optional keys in `.github/agentic-ops.yml`:
+
+- `source-repo` — the repository that develops the audit/optimizer workflows themselves (defaults to `githubnext/agentic-ops`). The optimizer keeps the monitoring workflows eligible for optimization only in that repository and excludes them everywhere else.
+
 ## License
 
 MIT
